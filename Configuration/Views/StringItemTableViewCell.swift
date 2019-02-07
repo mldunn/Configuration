@@ -15,12 +15,16 @@ class StringItemTableViewCell: ItemTableViewCell {
         valueTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
-    var item: SectionItem?
     override func configure(item: SectionItem) {
+        super.configure(item: item)
+        
         nameLabel.text = item.key?.localized
+        nameLabel.adjustsFontForContentSizeCategory = true
+        
         valueTextField.text = item.stringvalue
         valueTextField.delegate = self
-        self.item = item
+        valueTextField.adjustsFontForContentSizeCategory = true
+        
     }
     
     @IBOutlet weak var nameLabel: UILabel!
@@ -29,13 +33,6 @@ class StringItemTableViewCell: ItemTableViewCell {
     
     @objc func textDidChange(_ textField: UITextField) {
         item?.stringvalue = textField.text
-        changeDelegate?.valueDidChange()
-    }
-}
-
-
-extension StringItemTableViewCell: UITextFieldDelegate {
-    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         changeDelegate?.valueDidChange()
     }
 }

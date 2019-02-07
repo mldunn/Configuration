@@ -14,6 +14,16 @@ protocol ItemTableViewCellDelegate: class {
 }
 
 class ItemTableViewCell: UITableViewCell {
-    func configure(item: SectionItem) {}
+    var item: SectionItem?
+    
+    func configure(item: SectionItem) {
+        self.item = item
+    }
     weak var changeDelegate: ItemTableViewCellDelegate?
+}
+
+extension ItemTableViewCell: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        changeDelegate?.valueDidChange()
+    }
 }

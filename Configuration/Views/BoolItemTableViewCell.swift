@@ -10,10 +10,10 @@ import UIKit
 
 class BoolItemTableViewCell: ItemTableViewCell {
     
-    var item: SectionItem?
     override func configure(item: SectionItem) {
-        self.item = item
+        super.configure(item: item)
         nameLabel.text = item.key?.localized
+        nameLabel.adjustsFontForContentSizeCategory = true
         boolSwitch.isOn = item.boolValue == true
         boolSwitch.addTarget(self, action: #selector(switchChanged), for: UIControl.Event.valueChanged)
     }

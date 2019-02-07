@@ -128,22 +128,22 @@ class SettingsViewController: UIViewController {
         
     }
     
+    // MARK: - Alert
+    
     func displayAlert() {
        
         let alertTitle = NSLocalizedString("ALERT_TITLE", comment: "alertTitle")
-        let alertMessage = "You have unsaved data. Save Changes?"
-        let alertDoneAction = "Discard"
-        let alertSaveAction = "Save"
+        let alertMessage = NSLocalizedString("ALERT_MESSAGE", comment: "alertTitle")
+        let alertDoneAction = NSLocalizedString("ALERT_DONE_ACTION", comment: "alertTitle")
+        let alertSaveAction = NSLocalizedString("ALERT_SAVE_ACTION", comment: "alertTitle")
         
         let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: alertDoneAction, style: .default, handler: { [weak self] action in
         
+        alert.addAction(UIAlertAction(title: alertDoneAction, style: .default, handler: { [weak self] action in
             self?.dismiss(animated: true, completion: nil)
-            
         }))
         
         alert.addAction(UIAlertAction(title: alertSaveAction, style: .default, handler: { [weak self] action in
-            
             self?.saveContext()
         }))
     
