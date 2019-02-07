@@ -10,9 +10,11 @@ import UIKit
 
 class BoolItemTableViewCell: ItemTableViewCell {
     
-    override func configure(item: Item) {
-        nameLabel.text = item.key
-        boolSwitch.isOn = item.boolValue ?? false
+    var item: SectionItem?
+    override func configure(item: SectionItem) {
+        self.item = item
+        nameLabel.text = item.key?.localized
+        boolSwitch.isOn = item.boolValue == true
         boolSwitch.addTarget(self, action: #selector(switchChanged), for: UIControl.Event.valueChanged)
     }
     
@@ -22,6 +24,7 @@ class BoolItemTableViewCell: ItemTableViewCell {
     
 
     @objc func switchChanged(mySwitch: UISwitch) {
+        item?.boolValue = boolSwitch.isOn
         changeDelegate?.valueDidChange()
     }
    

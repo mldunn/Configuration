@@ -12,9 +12,9 @@ class SectionHeaderView: UITableViewHeaderFooterView {
 
     var id: UUID?
     
-    func configure(id: UUID?, name: String) {
+    func configure(id: UUID?, name: String?) {
         self.id = id
-        textLabel?.text = name
+        textLabel?.text = name?.localized
         
         let bgView = UIView()
         bgView.backgroundColor = .cyan

@@ -10,10 +10,9 @@ import UIKit
 
 class NumItemTableViewCell: ItemTableViewCell {
     
-    override func configure(item: Item) {
-        if let val = item.numValue {
-            valueTextField.text = String(val)
-        }
+    override func configure(item: SectionItem) {
+        nameLabel.text = item.key?.localized
+        valueTextField.text = String(item.numValue)
     }
     
 

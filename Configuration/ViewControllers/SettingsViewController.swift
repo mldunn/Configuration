@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreData
+
 
 class SettingsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
@@ -21,6 +23,10 @@ class SettingsViewController: UIViewController {
         }
     }
     
+    @IBAction func saveTapped(_ sender: Any) {
+        saveContext()
+    }
+    
     var isDirty: Bool = false {
         didSet {
             saveButton.isEnabled = isDirty
@@ -30,16 +36,30 @@ class SettingsViewController: UIViewController {
     
     var isXmlParsed: Bool {
         get {
-            return UserDefaults.standard.bool(forKey: "isXmlParsed")
+            let val = UserDefaults.standard.bool(forKey: "isXmlParsed")
+            LogService.log("isXmlParsed: \(val)")
+            return val
         }
         set {
-            UserDefaults.standard.set(isXmlParsed, forKey: "isXmlParsed")
+            UserDefaults.standard.set(newValue, forKey: "isXmlParsed")
+            UserDefaults.standard.synchronize()
         }
     }
+    
+    var managedContext: NSManagedObjectContext?
+  
+    var dataItems: [Section]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        managedContext = appDelegate.persistentContainer.viewContext
+        
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
@@ -53,55 +73,78 @@ class SettingsViewController: UIViewController {
     }
     
     func loadXML() {
-        let sections = Sections.allCases.map { $0.rawValue }
-        let parser = ParserService(name: "configuration", root: "configuration", tags: sections)
-        parser.parse { [weak self] (success, error) in
-            // firstLaunch = true
-            self?.loadItems()
+        
+        DispatchQueue.global().async {
+            let sections = SectionTag.allCases.map { $0 }
+            let parser = ParserService(name: "configuration", root: "configuration", tags: sections)
+            parser.parse { [weak self] (success, error) in
+               
+                self?.saveXML(parser.xmlElements)
+            }
         }
     }
    
-    
-    func loadItems() {
-        
-        for section in sections {
-            items[section.name] = []
-            
-            var index = 0
-            let item = Item(key: "key\(index)", type: types[index], boolValue: false, numValue: index+2, stringValue: "string\(index)", id:   nil)
-            items[section.name]?.append(item)
-            
-            index += 1
-            let item2 = Item(key: "key\(index)", type: types[index], boolValue: false, numValue: index+2, stringValue: "string\(index)", id:   nil)
-            items[section.name]?.append(item2)
-            
-            index += 1
-            let item3 = Item(key: "key\(index+2)", type: types[index], boolValue: false, numValue: index+2, stringValue: "string\(index)", id:   nil)
-            
-            items[section.name]?.append(item3)
+    func saveXML(_ xmlData: [XMLSection]) {
+        DispatchQueue.global().async { [weak self] in
+            if let context = self?.managedContext {
+            DataModelService.saveConfiguration(xmlData, managedContext: context)
+                self?.isXmlParsed = true
+                self?.loadItems()
+            }
         }
         
-        tableView.reloadData()
+    }
+    
+    func loadItems() {
+        if let context = managedContext {
+            dataItems = DataModelService.getSections(managedContext: context)
+            DispatchQueue.main.async { [weak self] in
+                self?.tableView.reloadData()
+                self?.dumpItems()
+            }
+        }
+    }
+    
+    func dumpItems() {
+        for section in dataItems ?? [] {
+           for item in section.items ?? [] {
+                if let item = item as? SectionItem {
+                    print(item.details)
+                }
+            }
+        }
     }
 
+    func saveContext() {
+        
+        dumpItems()
+        do {
+           try  managedContext?.save()
+        }
+        catch {
+            
+        }
+        isDirty = false
+        
+    }
     
     func displayAlert() {
        
-        let title = "Alert"
-        let message = "You have unsaved data.  Save Changes?"
-        let discard = "Discard"
-        let OK = "Save"
+        let alertTitle = NSLocalizedString("ALERT_TITLE", comment: "alertTitle")
+        let alertMessage = "You have unsaved data. Save Changes?"
+        let alertDoneAction = "Discard"
+        let alertSaveAction = "Save"
         
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: discard, style: .default, handler: { [weak self] action in
+        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: alertDoneAction, style: .default, handler: { [weak self] action in
         
             self?.dismiss(animated: true, completion: nil)
             
         }))
         
-        alert.addAction(UIAlertAction(title: OK, style: .default, handler: { action in
+        alert.addAction(UIAlertAction(title: alertSaveAction, style: .default, handler: { [weak self] action in
             
-            
+            self?.saveContext()
         }))
     
         present(alert, animated: true, completion: nil)
@@ -109,36 +152,50 @@ class SettingsViewController: UIViewController {
    
 }
 
+
+// MARK: - TableView Delegate and DataSource
+
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items[sections[section].name]?.count ?? 0
+        if let xs = dataItems?[section] {
+            return xs.itemCount
+        }
+        return  0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = sections[indexPath.section]
-        if let item = items[section.name]?[indexPath.row],
-            let cell = tableView.dequeueReusableCell(withIdentifier: item.type.cellIdentifier, for: indexPath) as? ItemTableViewCell {
-            cell.configure(item: item)
-            cell.changeDelegate = self
-            return cell 
+
+        if let xs = dataItems?[indexPath.section], let item = xs.items?.allObjects[indexPath.row] as? SectionItem, let dataType = item.dataType, let type = ItemType(rawValue: dataType) {
+         
+            
+            if let cell = tableView.dequeueReusableCell(withIdentifier: type.cellIdentifier, for: indexPath) as? ItemTableViewCell {
+                  cell.configure(item: item)
+                  cell.changeDelegate = self
+                 return cell
+            }
         }
         return UITableViewCell()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
+        return dataItems?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let item = sections[section]
         let view = SectionHeaderView()
-        view.configure(id: item.id, name: item.name)
+        if let xs = dataItems?[section] {
+            view.configure(id: xs.id, name: xs.name) 
+        }
         return view
     }
+    
+    
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 30
     }
+    
+    
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return UIView()
     }

@@ -11,5 +11,25 @@ import Foundation
 
 extension SectionItem {
     
-    
+    var details: String {
+        
+        var detail = key ?? ""
+        if let type = ItemType(rawValue: dataType ?? "") {
+            switch type {
+            case .bool:
+                detail.append(": \(boolValue) -")
+            case .number:
+                 detail.append(": \(numValue) -")
+            case .string:
+                detail.append(":  \(stringvalue ?? "") -")
+            }
+            detail.append(type.rawValue)
+            
+        }
+        else {
+            detail.append(":  \(stringvalue ?? "") -err")
+        }
+        
+        return detail
+    }
 }

@@ -9,15 +9,7 @@
 import Foundation
 
 
-enum ItemType: String, CaseIterable {
-    case string
-    case bool
-    case num
-    
-    var cellIdentifier: String {
-        return rawValue + "Cell"
-    }
-}
+
 
 struct DummySectionItem {
     var name: String
@@ -34,9 +26,8 @@ struct Item {
     var id: UUID?
 }
 
-var types: [ItemType] = [.string,.bool,.num]
+var types: [ItemType] = [.string,.bool,.number]
 var items =  [String:[Item]]()
-var sections: [DummySectionItem] = [DummySectionItem(name: "hello", id: nil),DummySectionItem(name: "world", id: nil)]
 
 
 

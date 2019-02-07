@@ -12,61 +12,40 @@ import CoreData
 
 class DataModelService {
     
+    class func saveConfiguration(_ xmlData: [XMLSection], managedContext: NSManagedObjectContext) {
     
-    class func createConfigurationSection(section: Section, items: [String:String]) {
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
+        for data in xmlData {
+            if let section = NSEntityDescription.insertNewObject(forEntityName: "Section", into: managedContext) as? Section {
+                section.name = data.name
+                section.id = data.id
+                for item in data.items {
+                    let sectionItem = SectionItem(context: managedContext)
+                    sectionItem.id = UUID()
+                    sectionItem.key = item.tag
+                    sectionItem.dataType = item.type.rawValue
+                    sectionItem.stringvalue = item.val
+                    sectionItem.boolValue = item.boolVal ?? false
+                    sectionItem.numValue = Int32(item.intVal ?? 0)
+                    section.addToItems(sectionItem)
+                }
+            }
         }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        for (name, value) in items.enumerated() {
-            let sectionItem = SectionItem(context: managedContext)
-//            sectionItem.name = LocalizedString(namee)
-//            sectionItem.type = TypeFrom(value)
-//            sectionItem.stringvalue = value
-//            sectionItem.boolValue = value as? Bool
-//            sectionItem.numValue = value as? Int
-            
-        }
-        
-        
-         //contact.parse(data: json, managedContext: managedContext)
-        
-        
         do {
             try managedContext.save()
         }
-        catch let error as NSError {
-            LogService.error(error, message: "create item")
-        }
-        
-    }
-    
-    class func createConfiguration(_ data: [String:[String:String]], context: NSManagedObjectContext) {
-        
-        for key in data.keys {
-            if let section = NSEntityDescription.insertNewObject(forEntityName: "Section", into: context) as? Section {
-                section.name = key
-                section.id = UUID()
-            }
+        catch  {
+            
         }
     }
     
     
-    class func getSections() -> [Section] {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Section")
-        request.returnsObjectsAsFaults = false
+    class func getSections(managedContext: NSManagedObjectContext) -> [Section] {
+        
+        let request: NSFetchRequest<Section> = Section.fetchRequest()
         do {
-            if let result = try context.fetch(request) as? [Section] {
-                return result
-            }
-            
-        } catch {
-            
-            print("Failed")
+            return try managedContext.fetch(request)
+        }
+        catch {
         }
         return []
     }

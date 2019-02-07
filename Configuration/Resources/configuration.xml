@@ -1,0 +1,13 @@
+<configuration>
+    <terminalData>
+        <transactionCurrencyCode>en-US</transactionCurrencyCode>
+        <transactionCurrencyExponent>2</transactionCurrencyExponent>
+        <additionalTerminalCapabilities>5439FAAB21</additionalTerminalCapabilities>
+    </terminalData>
+    <application>
+        <emailAddress></emailAddress>
+        <deviceSerialNumber></deviceSerialNumber>
+        <enableMultilane>false</enableMultilane>
+    </application>
+</configuration>
+

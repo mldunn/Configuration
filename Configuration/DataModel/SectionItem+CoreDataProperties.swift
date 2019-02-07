@@ -20,9 +20,9 @@ extension SectionItem {
     @NSManaged public var boolValue: Bool
     @NSManaged public var id: UUID?
     @NSManaged public var key: String?
-    @NSManaged public var numValue: Int64
+    @NSManaged public var numValue: Int32
     @NSManaged public var stringvalue: String?
-    @NSManaged public var type: Int16
+    @NSManaged public var dataType: String?
     @NSManaged public var section: Section?
 
 }

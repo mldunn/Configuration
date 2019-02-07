@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="a3o-Qv-Yhp">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Setting" translatesAutoresizingMaskIntoConstraints="NO" id="a3o-Qv-Yhp">
                                 <rect key="frame" x="0.0" y="114" width="375" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="2IR-H3-KOj"/>
@@ -92,7 +92,7 @@
                                             <outlet property="nameLabel" destination="LPs-fs-Pct" id="knV-py-H0X"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="numCell" id="Se6-hG-RKa" customClass="NumItemTableViewCell" customModule="Configuration" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="numberCell" id="Se6-hG-RKa" customClass="NumItemTableViewCell" customModule="Configuration" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="89" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Se6-hG-RKa" id="FXa-dQ-B1G">
@@ -183,7 +183,11 @@
                                 <action selector="doneTapped:" destination="6aO-o6-Twh" id="cd8-Gg-TMv"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="save" id="Uif-af-NJe"/>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="save" id="Uif-af-NJe">
+                            <connections>
+                                <action selector="saveTapped:" destination="6aO-o6-Twh" id="j86-t7-pko"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -232,4 +236,7 @@
             <point key="canvasLocation" x="3610.4000000000001" y="5.8470764617691158"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Setting" width="200" height="200"/>
+    </resources>
 </document>

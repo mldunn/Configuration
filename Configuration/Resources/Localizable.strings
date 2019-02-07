@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  Configuration
+
+  Created by michael dunn on 2/7/19.
+  Copyright © 2019 michael dunn. All rights reserved.
+*/
+
+"ALERT_TITLE" = "Alert";
+"ALERT_MESSAGE" = "You have unsaved data. Save Changes?";
+"ALERT_DONE_ACTION" = "Discard";
+"ALERT_SAVE_ACTION" = "Save";

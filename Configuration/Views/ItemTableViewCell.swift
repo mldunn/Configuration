@@ -14,6 +14,6 @@ protocol ItemTableViewCellDelegate: class {
 }
 
 class ItemTableViewCell: UITableViewCell {
-    func configure(item: Item) {}
+    func configure(item: SectionItem) {}
     weak var changeDelegate: ItemTableViewCellDelegate?
 }
