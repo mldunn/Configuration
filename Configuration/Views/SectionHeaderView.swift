@@ -10,14 +10,6 @@ import UIKit
 
 class SectionHeaderView: UITableViewHeaderFooterView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-    
     var id: UUID?
     
     func configure(id: UUID?, name: String) {
@@ -25,10 +17,8 @@ class SectionHeaderView: UITableViewHeaderFooterView {
         textLabel?.text = name
         
         let bgView = UIView()
-        bgView.backgroundColor = .red
+        bgView.backgroundColor = .cyan
         backgroundView = bgView
-        
-       
     }
 
 }

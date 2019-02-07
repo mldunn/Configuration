@@ -27,6 +27,16 @@ class SettingsViewController: UIViewController {
         }
     }
     
+    
+    var isXmlParsed: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "isXmlParsed")
+        }
+        set {
+            UserDefaults.standard.set(isXmlParsed, forKey: "isXmlParsed")
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -34,24 +44,27 @@ class SettingsViewController: UIViewController {
         tableView.delegate = self
         tableView.tableFooterView = UIView()
         
-        loadItems()
-        
-        
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        if isDirty {
-            displayAlert()
+        if isXmlParsed {
+            loadItems()
+        }
+        else {
+            loadXML()
         }
     }
     
+    func loadXML() {
+        let sections = Sections.allCases.map { $0.rawValue }
+        let parser = ParserService(name: "configuration", root: "configuration", tags: sections)
+        parser.parse { [weak self] (success, error) in
+            // firstLaunch = true
+            self?.loadItems()
+        }
+    }
+   
+    
     func loadItems() {
         
-        
-        
         for section in sections {
-            
-            
             items[section.name] = []
             
             var index = 0
@@ -73,20 +86,23 @@ class SettingsViewController: UIViewController {
 
     
     func displayAlert() {
-        let alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-            switch action.style{
-            case .default:
-                print("default")
-                
-            case .cancel:
-                print("cancel")
-                
-            case .destructive:
-                print("destructive")
-                
-                
-            }}))
+       
+        let title = "Alert"
+        let message = "You have unsaved data.  Save Changes?"
+        let discard = "Discard"
+        let OK = "Save"
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: discard, style: .default, handler: { [weak self] action in
+        
+            self?.dismiss(animated: true, completion: nil)
+            
+        }))
+        
+        alert.addAction(UIAlertAction(title: OK, style: .default, handler: { action in
+            
+            
+        }))
     
         present(alert, animated: true, completion: nil)
     }
@@ -105,7 +121,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: item.type.cellIdentifier, for: indexPath) as? ItemTableViewCell {
             cell.configure(item: item)
             cell.changeDelegate = self
-            return cell as? UITableViewCell ?? UITableViewCell()
+            return cell 
         }
         return UITableViewCell()
     }
@@ -120,6 +136,14 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         view.configure(id: item.id, name: item.name)
         return view
     }
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 30
+    }
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView()
+    }
+    
+   
 }
 
 extension SettingsViewController: ItemTableViewCellDelegate {
