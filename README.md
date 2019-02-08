@@ -1,11 +1,11 @@
-# Configuration
+# Configuration Project
 
 ## Overview
 
 Load an XML file and persist to Core Data in a dynamic fashion, minimizing schema changes
 
 
-## XML Schema
+### XML Schema
 
 ```
 <root>
@@ -46,7 +46,7 @@ SectionItem represents a value item that can be of one of three types: text, boo
 
 ### UI
 
-The app consist of a Home screen where there is a link to Edit Settings, tapping Edit Settings will bring up a form consisting of the values arranged by section with corresponding controls for the data type
+The app consist of a Home screen where there is a link to Edit Settings, tapping Edit Settings will bring up a form consisting of the values arranged by section with corresponding controls for the data type. 
 
 
 
