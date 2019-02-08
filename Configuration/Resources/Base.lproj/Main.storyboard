@@ -70,16 +70,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="never" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="35" sectionFooterHeight="20" translatesAutoresizingMaskIntoConstraints="NO" id="P5a-jb-JEN">
-                                <rect key="frame" x="10" y="84" width="355" height="539"/>
+                                <rect key="frame" x="1" y="65" width="373" height="558"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" red="0.31338291950000002" green="0.69938053909999998" blue="0.40057791100000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="boolCell" id="Gtd-ZZ-A5e" customClass="BoolItemTableViewCell" customModule="Configuration" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="35" width="355" height="44"/>
+                                        <rect key="frame" x="0.0" y="35" width="373" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Gtd-ZZ-A5e" id="31g-b8-KP8">
-                                            <rect key="frame" x="0.0" y="0.0" width="355" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="373" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LPs-fs-Pct">
@@ -124,10 +124,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="intCell" id="Se6-hG-RKa" customClass="NumItemTableViewCell" customModule="Configuration" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="79" width="355" height="44"/>
+                                        <rect key="frame" x="0.0" y="79" width="373" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Se6-hG-RKa" id="FXa-dQ-B1G">
-                                            <rect key="frame" x="0.0" y="0.0" width="355" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="373" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UNJ-hN-ekk">
@@ -166,10 +166,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="textCell" id="7nV-XV-ARD" customClass="StringItemTableViewCell" customModule="Configuration" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="123" width="355" height="44"/>
+                                        <rect key="frame" x="0.0" y="123" width="373" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7nV-XV-ARD" id="zbw-Se-vcs">
-                                            <rect key="frame" x="0.0" y="0.0" width="355" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="373" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wM5-8P-X4d">
@@ -210,12 +210,12 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="63V-Gs-XQU" firstAttribute="bottom" secondItem="P5a-jb-JEN" secondAttribute="bottom" id="KxE-Bl-MPT"/>
-                            <constraint firstItem="63V-Gs-XQU" firstAttribute="trailing" secondItem="P5a-jb-JEN" secondAttribute="trailing" constant="10" id="O3J-ZY-4qS"/>
-                            <constraint firstItem="P5a-jb-JEN" firstAttribute="top" secondItem="63V-Gs-XQU" secondAttribute="top" constant="20" id="VWP-9n-dBD"/>
-                            <constraint firstItem="P5a-jb-JEN" firstAttribute="leading" secondItem="63V-Gs-XQU" secondAttribute="leading" constant="10" id="v0a-UJ-AVT"/>
+                            <constraint firstItem="63V-Gs-XQU" firstAttribute="trailing" secondItem="P5a-jb-JEN" secondAttribute="trailing" constant="1" id="O3J-ZY-4qS"/>
+                            <constraint firstItem="P5a-jb-JEN" firstAttribute="top" secondItem="63V-Gs-XQU" secondAttribute="top" constant="1" id="VWP-9n-dBD"/>
+                            <constraint firstItem="P5a-jb-JEN" firstAttribute="leading" secondItem="63V-Gs-XQU" secondAttribute="leading" constant="1" id="v0a-UJ-AVT"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="63V-Gs-XQU"/>
                     </view>

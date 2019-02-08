@@ -18,7 +18,7 @@ class SectionHeaderView: UIView {
         self.id = id
         titleLabel.textColor = .black
         titleLabel.text = name?.localized
-        backgroundView.backgroundColor = UIColor.customBlue
+        backgroundView.backgroundColor = UIColor.lightBlue
     }
 
 }
