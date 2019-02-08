@@ -53,28 +53,6 @@ class NumItemTableViewCell: ItemTableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
 
     
-    //
-    // check for valid integer
-    //
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        LogService.log("NumItemTableViewCell.shouldChangeCharactersInstring \(string)")
-        
-        if string.isEmpty {
-            return true
-        }
-        
-        if let newText = textField.text as NSString? {
-            let newString = newText.replacingCharacters(in: range, with: string)
-            LogService.log("NumItemTableViewCell.shouldChangeCharactersInstring - newString=\(newString)")
-                
-            if let _ = Int64(newString) {
-                return true
-            }
-            else if textField.text?.isEmpty ?? true {
-                return true
-            }
-        }
-        return false
-    }
+    
 }
 
