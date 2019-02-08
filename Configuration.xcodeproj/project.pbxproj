@@ -11,7 +11,6 @@
 		D549A371220BF2A800DC7453 /* BoolItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D549A370220BF2A800DC7453 /* BoolItemTableViewCell.swift */; };
 		D549A373220BF2B800DC7453 /* NumItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D549A372220BF2B800DC7453 /* NumItemTableViewCell.swift */; };
 		D549A379220BF83F00DC7453 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D549A378220BF83F00DC7453 /* SectionHeaderView.swift */; };
-		D549A37B220BFF7F00DC7453 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D549A37A220BFF7F00DC7453 /* DataModel.swift */; };
 		D549A37D220C070800DC7453 /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D549A37C220C070800DC7453 /* ItemTableViewCell.swift */; };
 		D549A387220C0FB700DC7453 /* ParserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D549A386220C0FB700DC7453 /* ParserService.swift */; };
 		D549A3A7220C1A1F00DC7453 /* DataModelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D549A3A6220C1A1F00DC7453 /* DataModelService.swift */; };
@@ -28,12 +27,13 @@
 		D5916403220C640000559607 /* SectionItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916402220C640000559607 /* SectionItem+Extension.swift */; };
 		D5916405220C7D3C00559607 /* configuration.xml in Resources */ = {isa = PBXBuildFile; fileRef = D5916404220C7D3C00559607 /* configuration.xml */; };
 		D5916407220C7EAD00559607 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916406220C7EAD00559607 /* String+Extension.swift */; };
-		D5916414220CAC8C00559607 /* SectionItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916410220CAC8C00559607 /* SectionItem+CoreDataClass.swift */; };
-		D5916415220CAC8C00559607 /* SectionItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916411220CAC8C00559607 /* SectionItem+CoreDataProperties.swift */; };
-		D5916416220CAC8C00559607 /* Section+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916412220CAC8C00559607 /* Section+CoreDataClass.swift */; };
-		D5916417220CAC8C00559607 /* Section+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916413220CAC8C00559607 /* Section+CoreDataProperties.swift */; };
 		D5916419220CB35D00559607 /* Section+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916418220CB35D00559607 /* Section+Extension.swift */; };
 		D5916427220CD32100559607 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D5916426220CD32100559607 /* Localizable.strings */; };
+		D5916431220D004300559607 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916430220D004300559607 /* UITextField+Extension.swift */; };
+		D5916436220D05C200559607 /* SectionItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916432220D05C200559607 /* SectionItem+CoreDataClass.swift */; };
+		D5916437220D05C200559607 /* SectionItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916433220D05C200559607 /* SectionItem+CoreDataProperties.swift */; };
+		D5916438220D05C200559607 /* Section+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916434220D05C200559607 /* Section+CoreDataClass.swift */; };
+		D5916439220D05C200559607 /* Section+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916435220D05C200559607 /* Section+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +58,6 @@
 		D549A370220BF2A800DC7453 /* BoolItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoolItemTableViewCell.swift; sourceTree = "<group>"; };
 		D549A372220BF2B800DC7453 /* NumItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumItemTableViewCell.swift; sourceTree = "<group>"; };
 		D549A378220BF83F00DC7453 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
-		D549A37A220BFF7F00DC7453 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		D549A37C220C070800DC7453 /* ItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTableViewCell.swift; sourceTree = "<group>"; };
 		D549A386220C0FB700DC7453 /* ParserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParserService.swift; sourceTree = "<group>"; };
 		D549A3A6220C1A1F00DC7453 /* DataModelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModelService.swift; sourceTree = "<group>"; };
@@ -81,12 +80,13 @@
 		D5916402220C640000559607 /* SectionItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionItem+Extension.swift"; sourceTree = "<group>"; };
 		D5916404220C7D3C00559607 /* configuration.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = configuration.xml; sourceTree = "<group>"; };
 		D5916406220C7EAD00559607 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
-		D5916410220CAC8C00559607 /* SectionItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionItem+CoreDataClass.swift"; sourceTree = "<group>"; };
-		D5916411220CAC8C00559607 /* SectionItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		D5916412220CAC8C00559607 /* Section+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Section+CoreDataClass.swift"; sourceTree = "<group>"; };
-		D5916413220CAC8C00559607 /* Section+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Section+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D5916418220CB35D00559607 /* Section+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Section+Extension.swift"; sourceTree = "<group>"; };
 		D5916426220CD32100559607 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		D5916430220D004300559607 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
+		D5916432220D05C200559607 /* SectionItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionItem+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D5916433220D05C200559607 /* SectionItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D5916434220D05C200559607 /* Section+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Section+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D5916435220D05C200559607 /* Section+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Section+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,11 +139,10 @@
 		D549A399220C172300DC7453 /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
-				D5916410220CAC8C00559607 /* SectionItem+CoreDataClass.swift */,
-				D5916411220CAC8C00559607 /* SectionItem+CoreDataProperties.swift */,
-				D5916412220CAC8C00559607 /* Section+CoreDataClass.swift */,
-				D5916413220CAC8C00559607 /* Section+CoreDataProperties.swift */,
-				D549A37A220BFF7F00DC7453 /* DataModel.swift */,
+				D5916432220D05C200559607 /* SectionItem+CoreDataClass.swift */,
+				D5916433220D05C200559607 /* SectionItem+CoreDataProperties.swift */,
+				D5916434220D05C200559607 /* Section+CoreDataClass.swift */,
+				D5916435220D05C200559607 /* Section+CoreDataProperties.swift */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -217,6 +216,7 @@
 				D5916402220C640000559607 /* SectionItem+Extension.swift */,
 				D5916406220C7EAD00559607 /* String+Extension.swift */,
 				D5916418220CB35D00559607 /* Section+Extension.swift */,
+				D5916430220D004300559607 /* UITextField+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -367,25 +367,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				D549A373220BF2B800DC7453 /* NumItemTableViewCell.swift in Sources */,
-				D5916416220CAC8C00559607 /* Section+CoreDataClass.swift in Sources */,
 				D549A3A9220C20F400DC7453 /* LogService.swift in Sources */,
+				D5916438220D05C200559607 /* Section+CoreDataClass.swift in Sources */,
 				D5916419220CB35D00559607 /* Section+Extension.swift in Sources */,
-				D5916414220CAC8C00559607 /* SectionItem+CoreDataClass.swift in Sources */,
+				D5916431220D004300559607 /* UITextField+Extension.swift in Sources */,
 				D5916407220C7EAD00559607 /* String+Extension.swift in Sources */,
-				D5916417220CAC8C00559607 /* Section+CoreDataProperties.swift in Sources */,
-				D5916415220CAC8C00559607 /* SectionItem+CoreDataProperties.swift in Sources */,
+				D5916439220D05C200559607 /* Section+CoreDataProperties.swift in Sources */,
 				D5825D13220BEBE600C39894 /* Configuration.xcdatamodeld in Sources */,
 				D549A387220C0FB700DC7453 /* ParserService.swift in Sources */,
 				D549A37D220C070800DC7453 /* ItemTableViewCell.swift in Sources */,
+				D5916436220D05C200559607 /* SectionItem+CoreDataClass.swift in Sources */,
 				D5825D0B220BEBE600C39894 /* AppDelegate.swift in Sources */,
 				D549A379220BF83F00DC7453 /* SectionHeaderView.swift in Sources */,
 				D549A36F220BF29400DC7453 /* StringItemTableViewCell.swift in Sources */,
 				D5825D3E220BEDC400C39894 /* SettingsViewController.swift in Sources */,
 				D5916403220C640000559607 /* SectionItem+Extension.swift in Sources */,
+				D5916437220D05C200559607 /* SectionItem+CoreDataProperties.swift in Sources */,
 				D549A371220BF2A800DC7453 /* BoolItemTableViewCell.swift in Sources */,
 				D549A3A7220C1A1F00DC7453 /* DataModelService.swift in Sources */,
 				D5825D3C220BEDB400C39894 /* HomeViewController.swift in Sources */,
-				D549A37B220BFF7F00DC7453 /* DataModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

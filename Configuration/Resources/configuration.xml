@@ -1,13 +1,37 @@
 <configuration>
     <terminalData>
-        <transactionCurrencyCode>en-US</transactionCurrencyCode>
-        <transactionCurrencyExponent>2</transactionCurrencyExponent>
-        <additionalTerminalCapabilities>5439FAAB21</additionalTerminalCapabilities>
+        <transactionCurrencyCode type="text">en-US</transactionCurrencyCode>
+        <transactionCurrencyExponent type="int">2</transactionCurrencyExponent>
+        <additionalTerminalCapabilities type="text">5439FAAB21</additionalTerminalCapabilities>
     </terminalData>
+    <TestTheStuff>
+        <woo>hoo</woo>
+         <emailA>asd</emailA>
+    </TestTheStuff>
     <application>
-        <emailAddress></emailAddress>
-        <deviceSerialNumber></deviceSerialNumber>
-        <enableMultilane>false</enableMultilane>
+        <emailAddress type="text"></emailAddress>
+        <deviceSerialNumber type="text"></deviceSerialNumber>
+        <enableMultilane type="bool">false</enableMultilane>
     </application>
+    <terminalData3>
+        <transactionCurrencyCode type="text">en-US</transactionCurrencyCode>
+        <transactionCurrencyExponent type="int">244</transactionCurrencyExponent>
+        <additionalTerminalCapabilities type="text">5439FAAB21</additionalTerminalCapabilities>
+    </terminalData3>
+    <TestTheStuff44>
+        <woo>hoo</woo>
+        <emailA>asd</emailA>
+    </TestTheStuff44>
+    <application23>
+        <emailAddress type="text">howdy</emailAddress>
+        <deviceSerialNumber type="text"></deviceSerialNumber>
+        <enableMultilane type="bool">false</enableMultilane>
+        <emailAddress type="text">doody</emailAddress>
+        <deviceSerialNumber type="text"></deviceSerialNumber>
+        <enableMultilane type="bool">true</enableMultilane>
+        <emailAddress type="text">time</emailAddress>
+        <deviceSerialNumber type="text"></deviceSerialNumber>
+        <enableMultilane type="bool">true</enableMultilane>
+    </application23>
 </configuration>
 

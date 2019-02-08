@@ -23,7 +23,7 @@ class NumItemTableViewCell: ItemTableViewCell {
         valueTextField.text = item.stringvalue
         valueTextField.delegate = self
         valueTextField.adjustsFontForContentSizeCategory = true
-        
+        valueTextField.addDoneCancelToolbar()
     }
     
      @objc func textDidChange(_ textField: UITextField) {

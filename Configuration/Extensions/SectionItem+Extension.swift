@@ -18,9 +18,9 @@ extension SectionItem {
             switch type {
             case .bool:
                 detail.append(": \(boolValue) -")
-            case .number:
+            case .int:
                  detail.append(": \(numValue) -")
-            case .string:
+            case .text:
                 detail.append(":  \(stringvalue ?? "") -")
             }
             detail.append(type.rawValue)

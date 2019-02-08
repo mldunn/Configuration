@@ -13,4 +13,11 @@ extension Section {
     var itemCount: Int {
         return items?.count ?? 0
     }
+    
+    var sectionItems: [SectionItem] {
+        if let allVals = items?.array as? [SectionItem] {
+           return allVals
+        }
+        return []
+    }
 }

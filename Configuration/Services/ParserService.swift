@@ -10,64 +10,25 @@ import Foundation
 
 
 enum ItemType: String, CaseIterable {
-    case string
+    case text
     case bool
-    case number
+    case int
     
     var cellIdentifier: String {
         return rawValue + "Cell"
     }
 }
 
-enum SectionTag: String, CaseIterable, CustomStringConvertible {
-    case terminalData
-    case application
-    
-    var description: String {
-        return rawValue.localized
-    }
-    
-    var tag: String {
-        get {
-            return rawValue
-        }
-    }
-}
-
-class XMLSection {
-    
-    var name: String {
-        return tag?.description ?? ""
-    }
-    var key: String {
-        return tag?.rawValue ?? ""
-    }
-    var id: UUID
-    var tag: SectionTag?
-    var items: [ItemValue] = []
-    var itemCount: Int {
-        return items.count
-    }
-    init(tag: String) {
-        id = UUID()
-        self.tag = SectionTag(rawValue: tag)
-    }
-}
-
 struct ItemValue {
     var tag: String
     var val: String
+    var attribs: [String: String] = [:]
     
-    var type: ItemType {
-        if val.lowercased() == "false" || val.lowercased() == "true" {
-            return .bool
+    var type: ItemType? {
+        if let dataType = attribs["type"] {
+            return ItemType(rawValue: dataType)
         }
-        else if let _ = Int(val) {
-            return .number
-        }
-        else {
-            return .string
-        }
+        return ItemType(rawValue: "text")
     }
     
     var boolVal: Bool? {
@@ -78,7 +39,7 @@ struct ItemValue {
     }
     
     var intVal: Int? {
-        if type == .number {
+        if type == .int {
             return Int(val)
         }
         return nil
@@ -86,25 +47,38 @@ struct ItemValue {
 }
 
 
+class XMLSection {
+    
+    var id: UUID
+    var tag: String
+    var position: Int
+    var items: [ItemValue] = []
+    
+    var itemCount: Int {
+        return items.count
+    }
+    
+    init(tag: String, position: Int) {
+        id = UUID()
+        self.tag = tag
+        self.position = position
+    }
+}
 
 
 class ParserService: NSObject {
-    var sections: [SectionTag] = []
-    var rootName: String
     var fileName: String
    
     var xmlElements: [XMLSection] = []
     var currentXmlSection: XMLSection? = nil
     var currentValue: String = ""
-    var currentSection: SectionTag? = nil
-    var currentElement: String = ""
+    var currentElement: (String, [String:String])?
     
-    var tags: [String] = []
-
-    init(name: String, root: String, tags: [SectionTag]) {
+    private var tags: [String] = []
+    private let kSectionLevel = 2
+    
+    init(name: String) {
         fileName = name
-        rootName = root
-        sections = tags
     }
    
     func parse(_ completion: @escaping (Bool, Error?) -> () ) {
@@ -132,6 +106,7 @@ extension ParserService: XMLParserDelegate {
     
     func parserDidEndDocument(_ parser: XMLParser) {
         LogService.log("parserDidEndDocument")
+        assert(tags.count == 0)
     }
     
     func parserDidStartDocument(_ parser: XMLParser) {
@@ -143,23 +118,15 @@ extension ParserService: XMLParserDelegate {
         
         LogService.log("didStartElement: \(elementName)")
         
-        tags.append(elementName)
+        currentElement = (elementName, attributeDict)
+        tags.append((elementName))
        
         // not the root node
         if tags.count > 1 {
-        // if elementName != rootName {
-            currentElement = elementName
+            
             currentValue = ""
-            
-           // let section = sections.first (where: { $0.tag == elementName })
-            
-            if tags.count == 2 {
-                
-                let xmlSection = XMLSection(tag: elementName)
-                
-                // elements[section] = []
-                // currentSection = section
-                currentXmlSection = xmlSection
+            if tags.count == kSectionLevel {
+                currentXmlSection = XMLSection(tag: elementName, position: xmlElements.count)
             }
         }
     }
@@ -169,7 +136,7 @@ extension ParserService: XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, foundCharacters string: String) {
-        LogService.log("foundCharacters - \(currentElement): \(string)")
+        LogService.log("foundCharacters - \(String(describing: currentElement?.0)): \(string)")
         
         currentValue = string
     }
@@ -180,19 +147,19 @@ extension ParserService: XMLParserDelegate {
         
         if let xmlSection = currentXmlSection {
            
-            if tags.count == 2 {// end of section
+            // see if we are on the section level
+            if tags.count == kSectionLevel {
                 xmlElements.append(xmlSection)
                 currentXmlSection = nil
             }
         
-            else if tags.count > 2 {
-                let itemValue = ItemValue(tag: currentElement, val: currentValue)
+            else if tags.count > kSectionLevel, let currentElement = currentElement {
+                let itemValue = ItemValue(tag: currentElement.0, val: currentValue, attribs: currentElement.1)
                 xmlSection.items.append(itemValue)
             }
         }
         
-      
-        print(tags)
+        // pop the tag, since we are done processing
         tags.removeLast()
     }
 }

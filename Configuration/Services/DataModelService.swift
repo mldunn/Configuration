@@ -16,13 +16,14 @@ class DataModelService {
     
         for data in xmlData {
             if let section = NSEntityDescription.insertNewObject(forEntityName: "Section", into: managedContext) as? Section {
-                section.name = data.name
+                section.name = data.tag
                 section.id = data.id
+                section.position = Int32(data.position)
                 for item in data.items {
                     let sectionItem = SectionItem(context: managedContext)
                     sectionItem.id = UUID()
                     sectionItem.key = item.tag
-                    sectionItem.dataType = item.type.rawValue
+                    sectionItem.dataType = item.type?.rawValue
                     sectionItem.stringvalue = item.val
                     sectionItem.boolValue = item.boolVal ?? false
                     sectionItem.numValue = Int32(item.intVal ?? 0)
@@ -39,9 +40,10 @@ class DataModelService {
     }
     
     
-    class func getSections(managedContext: NSManagedObjectContext) -> [Section] {
+    class func getConfiguration(managedContext: NSManagedObjectContext) -> [Section] {
         
         let request: NSFetchRequest<Section> = Section.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Section.position), ascending: true)]
         do {
             return try managedContext.fetch(request)
         }
