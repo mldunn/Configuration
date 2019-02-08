@@ -7,7 +7,7 @@
 */
 
 "ALERT_TITLE" = "Alert";
-"ALERT_MESSAGE" = "You have unsaved data. Save Changes?";
+"ALERT_MESSAGE" = "You have unsaved changes. Save changes?";
 "ALERT_DONE_ACTION" = "Discard";
 "ALERT_SAVE_ACTION" = "Save";
 

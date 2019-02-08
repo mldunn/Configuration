@@ -24,16 +24,16 @@
 		D5825D2E220BEBE700C39894 /* ConfigurationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5825D2D220BEBE700C39894 /* ConfigurationUITests.swift */; };
 		D5825D3C220BEDB400C39894 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5825D3B220BEDB400C39894 /* HomeViewController.swift */; };
 		D5825D3E220BEDC400C39894 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5825D3D220BEDC400C39894 /* SettingsViewController.swift */; };
+		D5892AE2220D3A610078DE00 /* SectionItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5892ADE220D3A610078DE00 /* SectionItem+CoreDataClass.swift */; };
+		D5892AE3220D3A610078DE00 /* SectionItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5892ADF220D3A610078DE00 /* SectionItem+CoreDataProperties.swift */; };
+		D5892AE4220D3A610078DE00 /* Section+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5892AE0220D3A610078DE00 /* Section+CoreDataClass.swift */; };
+		D5892AE5220D3A610078DE00 /* Section+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5892AE1220D3A610078DE00 /* Section+CoreDataProperties.swift */; };
 		D5916403220C640000559607 /* SectionItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916402220C640000559607 /* SectionItem+Extension.swift */; };
 		D5916405220C7D3C00559607 /* configuration.xml in Resources */ = {isa = PBXBuildFile; fileRef = D5916404220C7D3C00559607 /* configuration.xml */; };
 		D5916407220C7EAD00559607 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916406220C7EAD00559607 /* String+Extension.swift */; };
 		D5916419220CB35D00559607 /* Section+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916418220CB35D00559607 /* Section+Extension.swift */; };
 		D5916427220CD32100559607 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D5916426220CD32100559607 /* Localizable.strings */; };
 		D5916431220D004300559607 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916430220D004300559607 /* UITextField+Extension.swift */; };
-		D5916436220D05C200559607 /* SectionItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916432220D05C200559607 /* SectionItem+CoreDataClass.swift */; };
-		D5916437220D05C200559607 /* SectionItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916433220D05C200559607 /* SectionItem+CoreDataProperties.swift */; };
-		D5916438220D05C200559607 /* Section+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916434220D05C200559607 /* Section+CoreDataClass.swift */; };
-		D5916439220D05C200559607 /* Section+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5916435220D05C200559607 /* Section+CoreDataProperties.swift */; };
 		D591643B220D141A00559607 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D591643A220D141A00559607 /* UIColor+Extension.swift */; };
 		D591643F220D1B2F00559607 /* SectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D591643E220D1B2F00559607 /* SectionHeaderView.xib */; };
 /* End PBXBuildFile section */
@@ -79,16 +79,16 @@
 		D5825D2F220BEBE700C39894 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5825D3B220BEDB400C39894 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		D5825D3D220BEDC400C39894 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		D5892ADE220D3A610078DE00 /* SectionItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionItem+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D5892ADF220D3A610078DE00 /* SectionItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D5892AE0220D3A610078DE00 /* Section+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Section+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D5892AE1220D3A610078DE00 /* Section+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Section+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D5916402220C640000559607 /* SectionItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionItem+Extension.swift"; sourceTree = "<group>"; };
 		D5916404220C7D3C00559607 /* configuration.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = configuration.xml; sourceTree = "<group>"; };
 		D5916406220C7EAD00559607 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		D5916418220CB35D00559607 /* Section+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Section+Extension.swift"; sourceTree = "<group>"; };
 		D5916426220CD32100559607 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		D5916430220D004300559607 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
-		D5916432220D05C200559607 /* SectionItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionItem+CoreDataClass.swift"; sourceTree = "<group>"; };
-		D5916433220D05C200559607 /* SectionItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		D5916434220D05C200559607 /* Section+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Section+CoreDataClass.swift"; sourceTree = "<group>"; };
-		D5916435220D05C200559607 /* Section+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Section+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D591643A220D141A00559607 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		D591643E220D1B2F00559607 /* SectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SectionHeaderView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -143,10 +143,10 @@
 		D549A399220C172300DC7453 /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
-				D5916432220D05C200559607 /* SectionItem+CoreDataClass.swift */,
-				D5916433220D05C200559607 /* SectionItem+CoreDataProperties.swift */,
-				D5916434220D05C200559607 /* Section+CoreDataClass.swift */,
-				D5916435220D05C200559607 /* Section+CoreDataProperties.swift */,
+				D5892ADE220D3A610078DE00 /* SectionItem+CoreDataClass.swift */,
+				D5892ADF220D3A610078DE00 /* SectionItem+CoreDataProperties.swift */,
+				D5892AE0220D3A610078DE00 /* Section+CoreDataClass.swift */,
+				D5892AE1220D3A610078DE00 /* Section+CoreDataProperties.swift */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -375,22 +375,22 @@
 			files = (
 				D591643B220D141A00559607 /* UIColor+Extension.swift in Sources */,
 				D549A373220BF2B800DC7453 /* NumItemTableViewCell.swift in Sources */,
+				D5892AE5220D3A610078DE00 /* Section+CoreDataProperties.swift in Sources */,
 				D549A3A9220C20F400DC7453 /* LogService.swift in Sources */,
-				D5916438220D05C200559607 /* Section+CoreDataClass.swift in Sources */,
 				D5916419220CB35D00559607 /* Section+Extension.swift in Sources */,
+				D5892AE3220D3A610078DE00 /* SectionItem+CoreDataProperties.swift in Sources */,
 				D5916431220D004300559607 /* UITextField+Extension.swift in Sources */,
 				D5916407220C7EAD00559607 /* String+Extension.swift in Sources */,
-				D5916439220D05C200559607 /* Section+CoreDataProperties.swift in Sources */,
+				D5892AE2220D3A610078DE00 /* SectionItem+CoreDataClass.swift in Sources */,
 				D5825D13220BEBE600C39894 /* Configuration.xcdatamodeld in Sources */,
 				D549A387220C0FB700DC7453 /* ParserService.swift in Sources */,
 				D549A37D220C070800DC7453 /* ItemTableViewCell.swift in Sources */,
-				D5916436220D05C200559607 /* SectionItem+CoreDataClass.swift in Sources */,
 				D5825D0B220BEBE600C39894 /* AppDelegate.swift in Sources */,
 				D549A379220BF83F00DC7453 /* SectionHeaderView.swift in Sources */,
 				D549A36F220BF29400DC7453 /* StringItemTableViewCell.swift in Sources */,
 				D5825D3E220BEDC400C39894 /* SettingsViewController.swift in Sources */,
+				D5892AE4220D3A610078DE00 /* Section+CoreDataClass.swift in Sources */,
 				D5916403220C640000559607 /* SectionItem+Extension.swift in Sources */,
-				D5916437220D05C200559607 /* SectionItem+CoreDataProperties.swift in Sources */,
 				D549A371220BF2A800DC7453 /* BoolItemTableViewCell.swift in Sources */,
 				D549A3A7220C1A1F00DC7453 /* DataModelService.swift in Sources */,
 				D5825D3C220BEDB400C39894 /* HomeViewController.swift in Sources */,

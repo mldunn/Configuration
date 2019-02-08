@@ -18,7 +18,7 @@ class SettingsViewController: UIViewController {
     
     @IBAction func doneTapped(_ sender: Any) {
         if isDirty {
-            displayAlert()
+            displaySaveAlert()
         }
         else {
             dismiss(animated: true, completion: nil)
@@ -29,13 +29,15 @@ class SettingsViewController: UIViewController {
         saveContext()
     }
     
+    private var managedContext: NSManagedObjectContext?
+    private var configuration: [Section]?
+    private var workerQueue = DispatchQueue(label: "configration.worker")
+    
     private var isDirty: Bool = false {
         didSet {
             saveButton.isEnabled = isDirty
         }
     }
-    
-
     
     var isXmlParsed: Bool {
         get {
@@ -48,9 +50,6 @@ class SettingsViewController: UIViewController {
             UserDefaults.standard.synchronize()
         }
     }
-    
-    private var managedContext: NSManagedObjectContext?
-    private var configuration: [Section]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,8 +70,8 @@ class SettingsViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
-        
-       // NSManagedObjectContextObjectsDidChangeNotification
+       
+        // NSManagedObjectContextObjectsDidChangeNotification
     
         NotificationCenter.default.addObserver(self, selector: #selector(managedObjectContextChanged), name: Notification.Name.NSManagedObjectContextObjectsDidChange, object: managedContext)
         
@@ -103,18 +102,23 @@ class SettingsViewController: UIViewController {
     // MARK: XML Helpers
     
     func loadXML() {
-        DispatchQueue.global().async {
+        workerQueue.async {
             
             let parser = ParserService(name: "configuration")
             parser.parse { [weak self] (success, error) in
                 
-                self?.saveXML(parser.xmlElements)
+                if let error = error {
+                   LogService.error(error, message: "loadXML FAILED")
+                }
+                else {
+                    self?.saveXML(parser.xmlElements)
+                }
             }
         }
     }
     
     func saveXML(_ xmlData: [XMLSection]) {
-        DispatchQueue.global().async { [weak self] in
+        workerQueue.async { [weak self] in
             
             guard let sSelf = self else { return }
             
@@ -128,7 +132,6 @@ class SettingsViewController: UIViewController {
     
     // MARK: Core Data Support
     
-    
     @objc func managedObjectContextChanged(_ notification: Notification) {
         LogService.log("managedObjectContextChanged")
         isDirty = true
@@ -138,30 +141,46 @@ class SettingsViewController: UIViewController {
         if let context = managedContext {
             configuration = DataModelService.getConfiguration(managedContext: context)
             DispatchQueue.main.async { [weak self] in
+                self?.isDirty = false
                 self?.tableView.reloadData()
             }
         }
     }
     
     func saveContext() {
-        // save using a background thread
-        DispatchQueue.global().async { [weak self] in
-            
-            guard let sSelf = self else { return }
-            
+        
+        managedContext?.perform() {
             do {
-                try  sSelf.managedContext?.save()
+                try self.managedContext?.save()
             }
             catch let error as NSError {
                 LogService.error(error, message: "Save Context FAILED")
             }
         }
+//        
+//        // save using a background thread
+//        DispatchQueue.global().async { [weak self] in
+//            
+//            guard let sSelf = self else { return }
+//            
+//            do {
+//                try sSelf.managedContext?.save()
+//            }
+//            catch let error as NSError {
+//                LogService.error(error, message: "Save Context FAILED")
+//            }
+//        }
         isDirty = false
+    }
+    
+    func discardContext() {
+        managedContext?.rollback()
+        dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Alert Controller
     
-    func displayAlert() {
+    func displaySaveAlert() {
         
         let alertTitle = NSLocalizedString("ALERT_TITLE", comment: "alertTitle")
         let alertMessage = NSLocalizedString("ALERT_MESSAGE", comment: "alertTitle")
@@ -171,7 +190,7 @@ class SettingsViewController: UIViewController {
         let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: alertDoneAction, style: .default, handler: { [weak self] action in
-            self?.dismiss(animated: true, completion: nil)
+            self?.discardContext()
         }))
         
         alert.addAction(UIAlertAction(title: alertSaveAction, style: .default, handler: { [weak self] action in
@@ -181,7 +200,6 @@ class SettingsViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
 }
-
 
 // MARK: - TableView Delegate and DataSource
 
@@ -196,7 +214,6 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let xs = configuration?[indexPath.section] {
-            
             let item = xs.sectionItems[indexPath.row]
             if let dataType = item.dataType,
                 let type = ItemType(rawValue: dataType),
@@ -221,7 +238,6 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         }
         return nil
     }
-    
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 30

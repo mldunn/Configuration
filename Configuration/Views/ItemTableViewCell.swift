@@ -8,6 +8,10 @@
 
 import UIKit
 
+//
+// ItemTableViewCell: base class for the three types of cells (text, number, bool)
+//      common keyboard handler when return button is tapped on text field keyboards
+//      item - represents the core data item being displayed
 
 class ItemTableViewCell: UITableViewCell {
     var item: SectionItem?

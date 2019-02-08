@@ -8,6 +8,7 @@
 
 import Foundation
 
+// MARK: XML Helper enum, struct and class to represent parsed xml
 
 enum ItemType: String, CaseIterable {
     case text
@@ -21,7 +22,6 @@ enum ItemType: String, CaseIterable {
 
 struct ItemValue {
     var tag: String
-    var val: String
     var attribs: [String: String] = [:]
     
     var type: ItemType? {
@@ -31,16 +31,18 @@ struct ItemValue {
         return ItemType(rawValue: "text")
     }
     
+    var textVal: String
+    
     var boolVal: Bool? {
         if type == .bool {
-            return val.lowercased() == "true"
+            return textVal.lowercased() == "true"
         }
         return nil
     }
     
     var intVal: Int? {
         if type == .int {
-            return Int(val)
+            return Int(textVal)
         }
         return nil
     }
@@ -49,7 +51,6 @@ struct ItemValue {
 
 class XMLSection {
     
-    var id: UUID
     var tag: String
     var position: Int
     var items: [ItemValue] = []
@@ -59,14 +60,17 @@ class XMLSection {
     }
     
     init(tag: String, position: Int) {
-        id = UUID()
         self.tag = tag
         self.position = position
     }
 }
 
+//
+// Parser Service - xml parser
+//
 
 class ParserService: NSObject {
+    
     var fileName: String
    
     var xmlElements: [XMLSection] = []
@@ -81,23 +85,34 @@ class ParserService: NSObject {
         fileName = name
     }
    
-    func parse(_ completion: @escaping (Bool, Error?) -> () ) {
+    func parse(_ completion: @escaping (Bool, NSError?) -> () ) {
+        
         guard let url = Bundle.main.url(forResource: fileName, withExtension: "xml") else {
             return
         }
-        var error: Error?
+        
+        var error: NSError?
         error = .none
+        
         if let parser = XMLParser(contentsOf: url) {
+            
             parser.delegate = self
+            
             if parser.parse() {
                 LogService.log(xmlElements.debugDescription)
                 completion(true, error)
             }
             else {
+                error = NSError(domain: "ParserService",
+                        code: 100,
+                        userInfo: [NSLocalizedDescriptionKey: "XMLParser failed"])
                 completion(false, error)
             }
         }
         else {
+            error = NSError(domain: "ParserService",
+                            code: 101,
+                            userInfo: [NSLocalizedDescriptionKey: "unable to create XMLParser"])
             completion(false, error)
         }
     }
@@ -152,9 +167,8 @@ extension ParserService: XMLParserDelegate {
                 xmlElements.append(xmlSection)
                 currentXmlSection = nil
             }
-        
             else if tags.count > kSectionLevel, let currentElement = currentElement {
-                let itemValue = ItemValue(tag: currentElement.0, val: currentValue, attribs: currentElement.1)
+                let itemValue = ItemValue(tag: currentElement.0, attribs: currentElement.1, textVal: currentValue)
                 xmlSection.items.append(itemValue)
             }
         }

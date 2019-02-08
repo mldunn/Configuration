@@ -12,10 +12,11 @@ class HomeViewController: UIViewController {
 
     @IBOutlet weak var editSettingsButton: UIButton!
     @IBOutlet weak var bundleVersionLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // Grab the bundle version number to display to the home screen
         
         if let bundleVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
             
@@ -25,8 +26,9 @@ class HomeViewController: UIViewController {
             bundleVersionLabel.text = formattedString
         }
         
-        editSettingsButton.setTitleColor(UIColor.customBlue, for: .normal)
+        // Add a little color to the Edit Button
         
+        editSettingsButton.setTitleColor(UIColor.customBlue, for: .normal)
     }
     
 

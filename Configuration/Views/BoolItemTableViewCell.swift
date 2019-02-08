@@ -8,6 +8,10 @@
 
 import UIKit
 
+//
+// BoolItemTableViewCell - cell for bool inputs, contains a switch control
+//
+
 class BoolItemTableViewCell: ItemTableViewCell {
     
     override func configure(item: SectionItem) {
@@ -17,14 +21,11 @@ class BoolItemTableViewCell: ItemTableViewCell {
         boolSwitch.isOn = item.boolValue == true
         boolSwitch.addTarget(self, action: #selector(switchChanged), for: UIControl.Event.valueChanged)
     }
-    
 
     @IBOutlet weak var boolSwitch: UISwitch!
     @IBOutlet weak var nameLabel: UILabel!
     
-
     @objc func switchChanged(mySwitch: UISwitch) {
         item?.boolValue = boolSwitch.isOn
     }
-   
 }

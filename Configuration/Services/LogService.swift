@@ -8,6 +8,8 @@
 
 import Foundation
 
+//
+// LogService: simple console loggin service
 
 class LogService {
     

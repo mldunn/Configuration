@@ -8,6 +8,9 @@
 
 import UIKit
 
+
+// SectionHeaderView - view class for customizing the TableView headers
+
 class SectionHeaderView: UIView {
 
     var id: UUID?
@@ -20,5 +23,4 @@ class SectionHeaderView: UIView {
         titleLabel.text = name?.localized
         backgroundView.backgroundColor = UIColor.lightBlue
     }
-
 }

@@ -11,7 +11,7 @@
         <attribute name="dataType" attributeType="String" defaultValueString="text" syncable="YES"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="key" attributeType="String" syncable="YES"/>
-        <attribute name="numValue" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="numValue" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="stringvalue" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="section" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Section" inverseName="items" inverseEntity="Section" syncable="YES"/>
     </entity>

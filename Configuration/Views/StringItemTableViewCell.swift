@@ -8,6 +8,9 @@
 
 import UIKit
 
+//
+// StringItemTableViewCell - cell for text inputs
+//
 
 class StringItemTableViewCell: ItemTableViewCell {
     
@@ -24,12 +27,10 @@ class StringItemTableViewCell: ItemTableViewCell {
         valueTextField.text = item.stringvalue
         valueTextField.delegate = self
         valueTextField.adjustsFontForContentSizeCategory = true
-        
     }
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var valueTextField: UITextField!
-
     
     @objc func textDidChange(_ textField: UITextField) {
         item?.stringvalue = textField.text
