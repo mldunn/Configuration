@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Home-->
+        <!--Configuration-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="Home" id="BYZ-38-t0r" customClass="HomeViewController" customModule="Configuration" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Configuration" id="BYZ-38-t0r" customClass="HomeViewController" customModule="Configuration" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -51,7 +51,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Home" id="W0H-vE-Aec"/>
+                    <navigationItem key="navigationItem" title="Configuration" id="W0H-vE-Aec"/>
                     <connections>
                         <outlet property="bundleVersionLabel" destination="aNb-uw-b2X" id="UTx-Rd-W4X"/>
                         <outlet property="editSettingsButton" destination="3I2-Bf-n4j" id="krM-kH-Rrc"/>
