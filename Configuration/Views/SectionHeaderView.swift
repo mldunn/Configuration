@@ -8,24 +8,17 @@
 
 import UIKit
 
-class SectionHeaderView: UITableViewHeaderFooterView {
+class SectionHeaderView: UIView {
 
     var id: UUID?
+    @IBOutlet weak var backgroundView: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
     
     func configure(id: UUID?, name: String?) {
         self.id = id
-        
-        let bgView = UIView()
-        bgView.backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
-        backgroundView = bgView
-        if let text = name?.localized {
-            textLabel?.text = "    " + text
-            textLabel?.adjustsFontForContentSizeCategory = true
-            textLabel?.textAlignment = .left
-            textLabel?.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-            textLabel?.center.y = contentView.center.y
-        }
-        
+        titleLabel.textColor = .black
+        titleLabel.text = name?.localized
+        backgroundView.backgroundColor = UIColor.customBlue
     }
 
 }

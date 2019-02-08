@@ -11,8 +11,10 @@ import CoreData
 
 
 class SettingsViewController: UIViewController {
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var doneButton: UIBarButtonItem!
     
     @IBAction func doneTapped(_ sender: Any) {
         if isDirty {
@@ -27,12 +29,13 @@ class SettingsViewController: UIViewController {
         saveContext()
     }
     
-    var isDirty: Bool = false {
+    private var isDirty: Bool = false {
         didSet {
             saveButton.isEnabled = isDirty
         }
     }
     
+
     
     var isXmlParsed: Bool {
         get {
@@ -46,8 +49,6 @@ class SettingsViewController: UIViewController {
         }
     }
     
-    
-
     private var managedContext: NSManagedObjectContext?
     private var configuration: [Section]?
     
@@ -58,6 +59,9 @@ class SettingsViewController: UIViewController {
             return
         }
         
+        saveButton.tintColor = UIColor.customBlue
+        doneButton.tintColor = UIColor.customBlue
+        
         managedContext = appDelegate.persistentContainer.viewContext
         
         tableView.dataSource = self
@@ -66,14 +70,22 @@ class SettingsViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        
+       // NSManagedObjectContextObjectsDidChangeNotification
     
-    
+        NotificationCenter.default.addObserver(self, selector: #selector(managedObjectContextChanged), name: Notification.Name.NSManagedObjectContextObjectsDidChange, object: managedContext)
+        
         if isXmlParsed {
             loadItems()
         }
         else {
             loadXML()
         }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: keyboard support
@@ -112,10 +124,15 @@ class SettingsViewController: UIViewController {
                 sSelf.loadItems()
             }
         }
-        
     }
     
-    // MARK: Load Items
+    // MARK: Core Data Support
+    
+    
+    @objc func managedObjectContextChanged(_ notification: Notification) {
+        LogService.log("managedObjectContextChanged")
+        isDirty = true
+    }
     
     func loadItems() {
         if let context = managedContext {
@@ -128,7 +145,6 @@ class SettingsViewController: UIViewController {
     
     func saveContext() {
         // save using a background thread
-        
         DispatchQueue.global().async { [weak self] in
             
             guard let sSelf = self else { return }
@@ -136,14 +152,14 @@ class SettingsViewController: UIViewController {
             do {
                 try  sSelf.managedContext?.save()
             }
-            catch {
-                
+            catch let error as NSError {
+                LogService.error(error, message: "Save Context FAILED")
             }
         }
         isDirty = false
     }
     
-    // MARK: - Alert
+    // MARK: - Alert Controller
     
     func displayAlert() {
         
@@ -186,7 +202,6 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
                 let type = ItemType(rawValue: dataType),
                 let cell = tableView.dequeueReusableCell(withIdentifier: type.cellIdentifier, for: indexPath) as? ItemTableViewCell {
                 cell.configure(item: item)
-                cell.changeDelegate = self
                 return cell
             }
         }
@@ -198,12 +213,15 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = SectionHeaderView()
-        if let xs = configuration?[section] {
-            view.configure(id: xs.id, name: xs.name) 
+        if let headerView = Bundle.main.loadNibNamed("SectionHeaderView", owner: nil, options: nil)?.first as? SectionHeaderView,
+            let xs = configuration?[section] {
+            headerView.configure(id: xs.id, name: xs.name)
+        
+            return headerView
         }
-        return view
+        return nil
     }
+    
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 30
@@ -211,12 +229,6 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return UIView()
-    }
-}
-
-extension SettingsViewController: ItemTableViewCellDelegate {
-    func valueDidChange() {
-        isDirty = true
     }
 }
 

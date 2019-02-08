@@ -9,26 +9,17 @@
 import UIKit
 
 
-protocol ItemTableViewCellDelegate: class {
-    func valueDidChange()
-}
-
 class ItemTableViewCell: UITableViewCell {
     var item: SectionItem?
     
     func configure(item: SectionItem) {
         self.item = item
     }
-    weak var changeDelegate: ItemTableViewCellDelegate?
 }
 
 extension ItemTableViewCell: UITextFieldDelegate {
-    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        changeDelegate?.valueDidChange()
-    }
-    
+   
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
         textField.resignFirstResponder()
         return true
     }

@@ -33,6 +33,5 @@ class StringItemTableViewCell: ItemTableViewCell {
     
     @objc func textDidChange(_ textField: UITextField) {
         item?.stringvalue = textField.text
-        changeDelegate?.valueDidChange()
     }
 }

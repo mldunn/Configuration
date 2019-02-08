@@ -25,7 +25,6 @@ class BoolItemTableViewCell: ItemTableViewCell {
 
     @objc func switchChanged(mySwitch: UISwitch) {
         item?.boolValue = boolSwitch.isOn
-        changeDelegate?.valueDidChange()
     }
    
 }

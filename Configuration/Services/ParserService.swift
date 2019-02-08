@@ -90,6 +90,7 @@ class ParserService: NSObject {
         if let parser = XMLParser(contentsOf: url) {
             parser.delegate = self
             if parser.parse() {
+                LogService.log(xmlElements.debugDescription)
                 completion(true, error)
             }
             else {
@@ -121,9 +122,9 @@ extension ParserService: XMLParserDelegate {
         currentElement = (elementName, attributeDict)
         tags.append((elementName))
        
-        // not the root node
+        // ignore the root node (tag.count == 1)
+        
         if tags.count > 1 {
-            
             currentValue = ""
             if tags.count == kSectionLevel {
                 currentXmlSection = XMLSection(tag: elementName, position: xmlElements.count)
@@ -137,7 +138,6 @@ extension ParserService: XMLParserDelegate {
     
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         LogService.log("foundCharacters - \(String(describing: currentElement?.0)): \(string)")
-        
         currentValue = string
     }
     

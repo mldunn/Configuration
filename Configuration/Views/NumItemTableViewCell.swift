@@ -28,12 +28,9 @@ class NumItemTableViewCell: ItemTableViewCell {
     
      @objc func textDidChange(_ textField: UITextField) {
         item?.stringvalue = textField.text
-        changeDelegate?.valueDidChange()
     }
 
     @IBOutlet weak var valueTextField: UITextField!
     @IBOutlet weak var nameLabel: UILabel!
-   
-
 }
 

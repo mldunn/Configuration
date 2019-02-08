@@ -10,3 +10,5 @@
 "ALERT_MESSAGE" = "You have unsaved data. Save Changes?";
 "ALERT_DONE_ACTION" = "Discard";
 "ALERT_SAVE_ACTION" = "Save";
+
+"BUNDLE_VERSION" = "Bundle Version: %@";
