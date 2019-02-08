@@ -10,7 +10,6 @@ import UIKit
 
 //
 // ItemTableViewCell: base class for the three types of cells (text, number, bool)
-//      common keyboard handler when return button is tapped on text field keyboards
 //      item - represents the core data item being displayed
 
 class ItemTableViewCell: UITableViewCell {
@@ -26,7 +25,7 @@ extension ItemTableViewCell: UITextFieldDelegate {
     //
     // check for valid integer
     //
-    func textField(_ textField: UITextField, shouldChangCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         guard let type = item?.dataType, (type == ItemType.int.rawValue) else { return true }
         
@@ -49,6 +48,10 @@ extension ItemTableViewCell: UITextFieldDelegate {
         }
         return false
     }
+    
+    //
+    // close keyboard on return button
+    //
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
