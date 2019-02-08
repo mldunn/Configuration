@@ -1,5 +1,5 @@
 //
-//  DataModelService.swift
+//  ConfigurationService.swift
 //  Configuration
 //
 //  Created by michael dunn on 2/7/19.
@@ -9,10 +9,9 @@
 import Foundation
 import CoreData
 
-class DataModelService {
+class ConfigurationService {
     
-    
-    class func createSectionItem(item: ItemValue, context: NSManagedObjectContext) -> SectionItem {
+    private class func createSectionItem(item: XMLItem, context: NSManagedObjectContext) -> SectionItem {
         let sectionItem = SectionItem(context: context)
         sectionItem.id = UUID()
         sectionItem.key = item.tag
@@ -43,7 +42,7 @@ class DataModelService {
             try managedContext.save()
         }
         catch let error as NSError {
-            LogService.error(error, message: "DataModelService.saveConfiguration")
+            LogService.error(error, message: "DataModelService.createConfiguration")
         }
     }
     
@@ -61,11 +60,11 @@ class DataModelService {
                     let keys: [String] = items.compactMap { $0.key }
                     let existingKeys = Set<String>( keys )
                     let newKeys = Set<String>( data.items.map { $0.tag } )
-                    let keysToBeAdded = newKeys.symmetricDifference(existingKeys)
+                    let keysToBeAdded = newKeys.subtracting(existingKeys)
                     if keysToBeAdded.count > 0 {
                         // add section items
                     }
-                    let keysToBeRemoved = existingKeys.symmetricDifference(newKeys)
+                    let keysToBeRemoved = existingKeys.subtracting(newKeys)
                     if keysToBeRemoved.count > 0 {
                         // remove section items
                     }
@@ -86,7 +85,7 @@ class DataModelService {
             try managedContext.save()
         }
         catch let error as NSError {
-            LogService.error(error, message: "DataModelService.saveConfiguration")
+            LogService.error(error, message: "DataModelService.updateConfiguration")
         }
     }
     
@@ -108,6 +107,4 @@ class DataModelService {
         }
         return []
     }
-    
-    
 }

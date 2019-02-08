@@ -20,7 +20,7 @@ enum ItemType: String, CaseIterable {
     }
 }
 
-struct ItemValue {
+struct XMLItem {
     var tag: String
     var attribs: [String: String] = [:]
     
@@ -53,7 +53,7 @@ class XMLSection {
     
     var tag: String
     var position: Int
-    var items: [ItemValue] = []
+    var items: [XMLItem] = []
     
     var itemCount: Int {
         return items.count
@@ -76,7 +76,7 @@ class ParserService: NSObject {
     private let kSectionLevel = 2
     
     var xmlElements: [XMLSection] = []
-    var currentXmlSection: XMLSection? = nil
+    var currentSection: XMLSection? = nil
     var currentValue: String = ""
     var currentElement: (String, [String:String])?
     
@@ -120,6 +120,11 @@ class ParserService: NSObject {
     }
 }
 
+// MARK: XMLParserDelegate
+
+//
+// Basic XML parsing service for parsing xml assuming straight structure of <root><section><item>
+//
 extension ParserService: XMLParserDelegate {
     
     func parserDidEndDocument(_ parser: XMLParser) {
@@ -144,7 +149,7 @@ extension ParserService: XMLParserDelegate {
         if tagStack.count > 1 {
             currentValue = ""
             if tagStack.count == kSectionLevel {
-                currentXmlSection = XMLSection(tag: elementName, position: xmlElements.count)
+                currentSection = XMLSection(tag: elementName, position: xmlElements.count)
             }
         }
     }
@@ -162,20 +167,20 @@ extension ParserService: XMLParserDelegate {
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         LogService.log("didEndElement \(elementName)")
         
-        if let xmlSection = currentXmlSection {
+        if let xmlSection = currentSection {
            
             // see if we are on the section level
             if tagStack.count == kSectionLevel {
                 xmlElements.append(xmlSection)
-                currentXmlSection = nil
+                currentSection = nil
             }
             else if tagStack.count > kSectionLevel, let currentElement = currentElement {
-                let itemValue = ItemValue(tag: currentElement.0, attribs: currentElement.1, textVal: currentValue)
-                xmlSection.items.append(itemValue)
+                let xmlItem = XMLItem(tag: currentElement.0, attribs: currentElement.1, textVal: currentValue)
+                xmlSection.items.append(xmlItem)
             }
         }
         
-        // pop the tag, since we are done processing
+        // pop the tag, since we are done processing the element
         tagStack.removeLast()
     }
 }

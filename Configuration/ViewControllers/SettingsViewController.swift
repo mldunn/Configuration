@@ -131,7 +131,7 @@ class SettingsViewController: UIViewController {
                 return
             }
             
-            DataModelService.createConfiguration(xmlData, managedContext: context)
+            ConfigurationService.createConfiguration(xmlData, managedContext: context)
             sSelf.isXmlParsed = true
             sSelf.loadItems()
             
@@ -149,7 +149,7 @@ class SettingsViewController: UIViewController {
     func loadItems() {
         guard let context = managedContext else { return }
         
-        configuration = DataModelService.getConfiguration(managedContext: context)
+        configuration = ConfigurationService.getConfiguration(managedContext: context)
         
         DispatchQueue.main.async { [weak self] in
             self?.isDirty = false
