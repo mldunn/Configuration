@@ -71,23 +71,25 @@ class XMLSection {
 
 class ParserService: NSObject {
     
-    var fileName: String
-   
+    private var url: URL?
+    private var tagStack: [String] = []
+    private let kSectionLevel = 2
+    
     var xmlElements: [XMLSection] = []
     var currentXmlSection: XMLSection? = nil
     var currentValue: String = ""
     var currentElement: (String, [String:String])?
     
-    private var tags: [String] = []
-    private let kSectionLevel = 2
     
-    init(name: String) {
-        fileName = name
+    init(bundleIdentifier: String) {
+        
+        url = Bundle.main.url(forResource: bundleIdentifier, withExtension: "xml")
     }
    
     func parse(_ completion: @escaping (Bool, NSError?) -> () ) {
         
-        guard let url = Bundle.main.url(forResource: fileName, withExtension: "xml") else {
+        guard let url = url else {
+            LogService.log("ParserService - invalid URL")
             return
         }
         
@@ -122,7 +124,7 @@ extension ParserService: XMLParserDelegate {
     
     func parserDidEndDocument(_ parser: XMLParser) {
         LogService.log("parserDidEndDocument")
-        assert(tags.count == 0)
+        assert(tagStack.count == 0)
     }
     
     func parserDidStartDocument(_ parser: XMLParser) {
@@ -135,13 +137,13 @@ extension ParserService: XMLParserDelegate {
         LogService.log("didStartElement: \(elementName)")
         
         currentElement = (elementName, attributeDict)
-        tags.append((elementName))
+        tagStack.append((elementName))
        
         // ignore the root node (tag.count == 1)
         
-        if tags.count > 1 {
+        if tagStack.count > 1 {
             currentValue = ""
-            if tags.count == kSectionLevel {
+            if tagStack.count == kSectionLevel {
                 currentXmlSection = XMLSection(tag: elementName, position: xmlElements.count)
             }
         }
@@ -163,17 +165,17 @@ extension ParserService: XMLParserDelegate {
         if let xmlSection = currentXmlSection {
            
             // see if we are on the section level
-            if tags.count == kSectionLevel {
+            if tagStack.count == kSectionLevel {
                 xmlElements.append(xmlSection)
                 currentXmlSection = nil
             }
-            else if tags.count > kSectionLevel, let currentElement = currentElement {
+            else if tagStack.count > kSectionLevel, let currentElement = currentElement {
                 let itemValue = ItemValue(tag: currentElement.0, attribs: currentElement.1, textVal: currentValue)
                 xmlSection.items.append(itemValue)
             }
         }
         
         // pop the tag, since we are done processing
-        tags.removeLast()
+        tagStack.removeLast()
     }
 }

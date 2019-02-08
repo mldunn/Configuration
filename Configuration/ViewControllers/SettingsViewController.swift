@@ -10,6 +10,11 @@ import UIKit
 import CoreData
 
 
+//
+// SettingsViewController - handles loading, displaying and managing config settings
+//
+
+
 class SettingsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
@@ -55,7 +60,7 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
+            fatalError()
         }
         
         saveButton.tintColor = UIColor.customBlue
@@ -79,7 +84,7 @@ class SettingsViewController: UIViewController {
             loadItems()
         }
         else {
-            loadXML()
+            loadXMLFromBundle()
         }
     }
     
@@ -101,32 +106,36 @@ class SettingsViewController: UIViewController {
 
     // MARK: XML Helpers
     
-    func loadXML() {
+    func loadXMLFromBundle() {
+        
         workerQueue.async {
             
-            let parser = ParserService(name: "configuration")
+            let parser = ParserService(bundleIdentifier: "configuration")
             parser.parse { [weak self] (success, error) in
                 
                 if let error = error {
-                   LogService.error(error, message: "loadXML FAILED")
+                   LogService.error(error, message: "loadXMLFromBundle FAILED")
                 }
                 else {
-                    self?.saveXML(parser.xmlElements)
+                    self?.saveXMLToStore(parser.xmlElements)
                 }
             }
         }
     }
     
-    func saveXML(_ xmlData: [XMLSection]) {
+    func saveXMLToStore(_ xmlData: [XMLSection]) {
         workerQueue.async { [weak self] in
             
-            guard let sSelf = self else { return }
-            
-            if let context = sSelf.managedContext {
-                DataModelService.saveConfiguration(xmlData, managedContext: context)
-                sSelf.isXmlParsed = true
-                sSelf.loadItems()
+            guard let sSelf = self, let context = sSelf.managedContext else {
+                LogService.log("saveXMLToStore - guard on sSelf or context failed")
+                return
             }
+            
+            DataModelService.createConfiguration(xmlData, managedContext: context)
+            sSelf.isXmlParsed = true
+            sSelf.loadItems()
+            
+            LogService.log("saveXMLToStore - saved configuration")
         }
     }
     
@@ -138,38 +147,34 @@ class SettingsViewController: UIViewController {
     }
     
     func loadItems() {
-        if let context = managedContext {
-            configuration = DataModelService.getConfiguration(managedContext: context)
-            DispatchQueue.main.async { [weak self] in
-                self?.isDirty = false
-                self?.tableView.reloadData()
-            }
+        guard let context = managedContext else { return }
+        
+        configuration = DataModelService.getConfiguration(managedContext: context)
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.isDirty = false
+            self?.tableView.reloadData()
         }
     }
     
     func saveContext() {
         
-        managedContext?.perform() {
-            do {
-                try self.managedContext?.save()
-            }
-            catch let error as NSError {
-                LogService.error(error, message: "Save Context FAILED")
+        guard let context = managedContext else { return }
+        if context.hasChanges {
+            
+            context.perform() {
+                do {
+                    try context.save()
+                    LogService.log("saveContext - SUCCESS")
+                }
+                catch let error as NSError {
+                    LogService.error(error, message: "saveContext - FAILED")
+                }
             }
         }
-//        
-//        // save using a background thread
-//        DispatchQueue.global().async { [weak self] in
-//            
-//            guard let sSelf = self else { return }
-//            
-//            do {
-//                try sSelf.managedContext?.save()
-//            }
-//            catch let error as NSError {
-//                LogService.error(error, message: "Save Context FAILED")
-//            }
-//        }
+        else {
+            LogService.log("saveContext - no changes - ABORTED")
+        }
         isDirty = false
     }
     
@@ -206,19 +211,16 @@ class SettingsViewController: UIViewController {
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let xs = configuration?[section] {
-            return xs.itemCount
-        }
-        return  0
+        return configuration?[section].itemCount ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let xs = configuration?[indexPath.section] {
-            let item = xs.sectionItems[indexPath.row]
-            if let dataType = item.dataType,
+        if let configSection = configuration?[indexPath.section] {
+            let configItem = configSection.sectionItems[indexPath.row]
+            if let dataType = configItem.dataType,
                 let type = ItemType(rawValue: dataType),
                 let cell = tableView.dequeueReusableCell(withIdentifier: type.cellIdentifier, for: indexPath) as? ItemTableViewCell {
-                cell.configure(item: item)
+                cell.configure(item: configItem)
                 return cell
             }
         }
