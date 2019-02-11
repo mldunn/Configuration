@@ -35,7 +35,7 @@ class SettingsViewController: UIViewController {
     }
     
     private var managedContext: NSManagedObjectContext?
-    private var configuration: [Section]?
+    private var configuration: Root?
     private var workerQueue = DispatchQueue(label: "configration.worker")
     
     private var isDirty: Bool = false {
@@ -116,14 +116,17 @@ class SettingsViewController: UIViewController {
                 if let error = error {
                    LogService.error(error, message: "loadXMLFromBundle FAILED")
                 }
+                else if let xmlRoot = parser.xmlRoot {
+                    self?.saveXMLToStore(xmlRoot)
+                }
                 else {
-                    self?.saveXMLToStore(parser.xmlElements)
+                     LogService.log("loadXMLFromBundle - missing xmlRoot")
                 }
             }
         }
     }
     
-    func saveXMLToStore(_ xmlData: [XMLSection]) {
+    func saveXMLToStore(_ xmlRoot: XMLRoot) {
         workerQueue.async { [weak self] in
             
             guard let sSelf = self, let context = sSelf.managedContext else {
@@ -131,7 +134,7 @@ class SettingsViewController: UIViewController {
                 return
             }
             
-            ConfigurationService.createConfiguration(xmlData, managedContext: context)
+            ConfigurationService.createConfiguration(xmlRoot, managedContext: context)
             sSelf.isXmlParsed = true
             sSelf.loadItems()
             
@@ -149,7 +152,7 @@ class SettingsViewController: UIViewController {
     func loadItems() {
         guard let context = managedContext else { return }
         
-        configuration = ConfigurationService.getConfiguration(managedContext: context)
+        configuration = ConfigurationService.getConfiguration(rootKey: "configuration", managedContext: context)
         
         DispatchQueue.main.async { [weak self] in
             self?.isDirty = false
@@ -211,12 +214,11 @@ class SettingsViewController: UIViewController {
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return configuration?[section].itemCount ?? 0
+        return configuration?.itemCount(index: section) ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let configSection = configuration?[indexPath.section] {
-            let configItem = configSection.sectionItems[indexPath.row]
+        if let configItem = configuration?.sectionItem(for: indexPath) {
             if let dataType = configItem.dataType,
                 let type = ItemType(rawValue: dataType),
                 let cell = tableView.dequeueReusableCell(withIdentifier: type.cellIdentifier, for: indexPath) as? ItemTableViewCell {
@@ -228,13 +230,13 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return configuration?.count ?? 0
+        return configuration?.numberOfSections ?? 0
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let headerView = Bundle.main.loadNibNamed("SectionHeaderView", owner: nil, options: nil)?.first as? SectionHeaderView,
-            let xs = configuration?[section] {
-            headerView.configure(id: xs.id, name: xs.name)
+            let configSection = configuration?.section(for: section) {
+            headerView.configure(id: configSection.id, name: configSection.name)
         
             return headerView
         }

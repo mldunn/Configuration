@@ -52,16 +52,30 @@ struct XMLItem {
 class XMLSection {
     
     var tag: String
-    var position: Int
     var items: [XMLItem] = []
     
     var itemCount: Int {
         return items.count
     }
     
-    init(tag: String, position: Int) {
+    init(tag: String) {
         self.tag = tag
-        self.position = position
+    }
+}
+
+struct XMLRoot {
+    var key: String
+    var version: String?
+    var sections: [XMLSection]
+    
+    init(key: String, version: String? = nil) {
+        self.key = key
+        self.version = version
+        sections = []
+    }
+    
+    var sectionCount: Int {
+        return sections.count
     }
 }
 
@@ -74,12 +88,13 @@ class ParserService: NSObject {
     private var url: URL?
     private var tagStack: [String] = []
     private let kSectionLevel = 2
+    private var rootElement: (String, [String:String])?
     
-    var xmlElements: [XMLSection] = []
     var currentSection: XMLSection? = nil
     var currentValue: String = ""
     var currentElement: (String, [String:String])?
     
+    var xmlRoot: XMLRoot?
     
     init(bundleIdentifier: String) {
         
@@ -101,7 +116,7 @@ class ParserService: NSObject {
             parser.delegate = self
             
             if parser.parse() {
-                LogService.log(xmlElements.debugDescription)
+                LogService.log(xmlRoot.debugDescription)
                 completion(true, error)
             }
             else {
@@ -130,11 +145,11 @@ extension ParserService: XMLParserDelegate {
     func parserDidEndDocument(_ parser: XMLParser) {
         LogService.log("parserDidEndDocument")
         assert(tagStack.count == 0)
+        print(xmlRoot.debugDescription)
     }
     
     func parserDidStartDocument(_ parser: XMLParser) {
         LogService.log("parserDidStartDocument")
-        xmlElements = []
     }
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
@@ -149,7 +164,12 @@ extension ParserService: XMLParserDelegate {
         if tagStack.count > 1 {
             currentValue = ""
             if tagStack.count == kSectionLevel {
-                currentSection = XMLSection(tag: elementName, position: xmlElements.count)
+                currentSection = XMLSection(tag: elementName)
+            }
+        }
+        else {
+            if let rootElement = currentElement {
+                xmlRoot = XMLRoot(key: rootElement.0, version: rootElement.1["version"])
             }
         }
     }
@@ -171,7 +191,7 @@ extension ParserService: XMLParserDelegate {
            
             // see if we are on the section level
             if tagStack.count == kSectionLevel {
-                xmlElements.append(xmlSection)
+                xmlRoot?.sections.append(xmlSection)
                 currentSection = nil
             }
             else if tagStack.count > kSectionLevel, let currentElement = currentElement {
