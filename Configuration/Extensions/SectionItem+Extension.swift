@@ -32,4 +32,11 @@ extension SectionItem {
         
         return detail
     }
+    
+    var identifier: String {
+        if let key = key, let section = section?.name {
+            return section + "." + key
+        }
+        return "undefined"
+    }
 }

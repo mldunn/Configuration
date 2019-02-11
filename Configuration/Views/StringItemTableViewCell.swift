@@ -27,6 +27,7 @@ class StringItemTableViewCell: ItemTableViewCell {
         valueTextField.text = item.stringvalue
         valueTextField.delegate = self
         valueTextField.adjustsFontForContentSizeCategory = true
+        valueTextField.accessibilityIdentifier = item.identifier
     }
     
     @IBOutlet weak var nameLabel: UILabel!

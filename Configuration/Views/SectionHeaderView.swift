@@ -22,5 +22,6 @@ class SectionHeaderView: UIView {
         titleLabel.textColor = .black
         titleLabel.text = name?.localized
         backgroundView.backgroundColor = UIColor.lightBlue
+        accessibilityIdentifier = name
     }
 }

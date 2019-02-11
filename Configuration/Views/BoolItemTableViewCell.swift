@@ -20,6 +20,7 @@ class BoolItemTableViewCell: ItemTableViewCell {
         nameLabel.adjustsFontForContentSizeCategory = true
         boolSwitch.isOn = item.boolValue == true
         boolSwitch.addTarget(self, action: #selector(switchChanged), for: UIControl.Event.valueChanged)
+        boolSwitch.accessibilityIdentifier = item.identifier
     }
 
     @IBOutlet weak var boolSwitch: UISwitch!

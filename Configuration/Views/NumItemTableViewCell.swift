@@ -31,6 +31,7 @@ class NumItemTableViewCell: ItemTableViewCell {
         valueTextField.delegate = self
         valueTextField.adjustsFontForContentSizeCategory = true
         valueTextField.addDoneCancelToolbar()
+        valueTextField.accessibilityIdentifier = item.identifier
     }
     
     @objc func textDidChange(_ textField: UITextField) {
