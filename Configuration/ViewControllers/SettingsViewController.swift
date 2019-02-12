@@ -34,17 +34,22 @@ class SettingsViewController: UIViewController {
         saveContext()
     }
     
-    private var managedContext: NSManagedObjectContext?
-    private var configuration: Root?
+    // context variables
+    private var mainContext: NSManagedObjectContext?
+    private var backgroundContext: NSManagedObjectContext?
+    // worker queue
     private var workerQueue = DispatchQueue(label: "configration.worker")
+    // data object
+    private var configuration: Root?
+    // data type
+    var editType: EditType = EditType.configuration
     
+    // state variables
     private var isDirty: Bool = false {
         didSet {
             saveButton.isEnabled = isDirty
         }
     }
-    
-    var editType: EditType = EditType.configuration
     
     private var parsedKey: String {
         return "isXmlParsed." + editType.rawValue
@@ -84,10 +89,12 @@ class SettingsViewController: UIViewController {
     // MARK: Setup Helpers
     
     func setupContext() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+        
+         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             fatalError()
         }
-        managedContext = appDelegate.persistentContainer.viewContext
+        mainContext = appDelegate.persistentContainer.viewContext
+        backgroundContext = appDelegate.persistentContainer.newBackgroundContext()
     }
     
     func setupDataSource() {
@@ -120,7 +127,7 @@ class SettingsViewController: UIViewController {
         
         // NSManagedObjectContextObjectsDidChangeNotification
         
-        NotificationCenter.default.addObserver(self, selector: #selector(managedObjectContextChanged), name: Notification.Name.NSManagedObjectContextObjectsDidChange, object: managedContext)
+        NotificationCenter.default.addObserver(self, selector: #selector(managedObjectContextChanged), name: Notification.Name.NSManagedObjectContextObjectsDidChange, object: mainContext)
     }
     
     // MARK: keyboard support
@@ -149,7 +156,7 @@ class SettingsViewController: UIViewController {
                 if let error = error {
                    LogService.error(error, message: "loadXMLFromBundle FAILED")
                 }
-                else if let xmlRoot = parser.xmlRoot {
+                else if success, let xmlRoot = parser.xmlRoot {
                     self?.saveXMLToStore(xmlRoot)
                 }
                 else {
@@ -162,7 +169,7 @@ class SettingsViewController: UIViewController {
     func saveXMLToStore(_ xmlRoot: XMLRoot) {
         workerQueue.async { [weak self] in
             
-            guard let sSelf = self, let context = sSelf.managedContext else {
+            guard let sSelf = self, let context = sSelf.backgroundContext else {
                 LogService.log("saveXMLToStore - guard on sSelf or context failed")
                 return
             }
@@ -184,13 +191,17 @@ class SettingsViewController: UIViewController {
     
     func loadItemsFromStore() {
         
-        guard let context = managedContext else { return }
-        
-        configuration = ConfigurationService.getConfiguration(rootKey: editType.rootKey, managedContext: context)
-        
         DispatchQueue.main.async { [weak self] in
-            self?.isDirty = false
-            self?.tableView.reloadData()
+            
+            guard let sSelf = self,  let context = sSelf.mainContext else {
+                LogService.log("loadItemsFromStore - guard on sSelf or context failed")
+                return
+            }
+          
+            sSelf.configuration = ConfigurationService.getConfiguration(rootKey: sSelf.editType.rootKey, managedContext: context)
+        
+            sSelf.isDirty = false
+            sSelf.tableView.reloadData()
         }
     }
     
@@ -198,7 +209,7 @@ class SettingsViewController: UIViewController {
     
     func saveContext() {
         
-        guard let context = managedContext else { return }
+        guard let context = mainContext else { return }
         if context.hasChanges {
             
             context.perform() {
@@ -218,7 +229,9 @@ class SettingsViewController: UIViewController {
     }
     
     func discardContext() {
-        managedContext?.rollback()
+        if let mainContext = mainContext, mainContext.hasChanges {
+            mainContext.rollback()
+        }
         dismiss(animated: true, completion: nil)
     }
     

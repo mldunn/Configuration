@@ -32,6 +32,7 @@ class NumItemTableViewCell: ItemTableViewCell {
         valueTextField.adjustsFontForContentSizeCategory = true
         valueTextField.addDoneCancelToolbar()
         valueTextField.accessibilityIdentifier = item.identifier
+        valueTextField.keyboardType = .asciiCapableNumberPad
     }
     
     @objc func textDidChange(_ textField: UITextField) {
