@@ -12,24 +12,26 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
-    @IBOutlet weak var editSettingsButton: UIButton!
     @IBOutlet weak var bundleVersionLabel: UILabel!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupBundleIdentifier()
+    }
+    
+    func setupBundleIdentifier() {
         // Grab the bundle version number to display to the home screen
         
         if let bundleVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
             
             let localizedString = NSLocalizedString("BUNDLE_VERSION", comment: "bundle version")
             let formattedString = String(format: localizedString, bundleVersion)
-
+            
             bundleVersionLabel.text = formattedString
         }
     }
-    
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         LogService.log("prepare for segue \(String(describing: segue.identifier))")

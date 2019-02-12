@@ -91,9 +91,7 @@ class SettingsViewController: UIViewController {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             fatalError()
         }
-        
         managedContext = appDelegate.persistentContainer.viewContext
-        
     }
     
     func setupDataSource() {
