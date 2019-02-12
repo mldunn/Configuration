@@ -70,27 +70,33 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupContext()
+        
+        setupNavigationButtons()
+        
+        setupTableView()
+        
+        setupNotifications()
+        
+        setupDataSource()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // MARK: Setup Helpers
+    
+    func setupContext() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             fatalError()
         }
         
-        saveButton.tintColor = UIColor.customBlue
-        doneButton.tintColor = UIColor.customBlue
-        
         managedContext = appDelegate.persistentContainer.viewContext
         
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.tableFooterView = UIView()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-       
-        // NSManagedObjectContextObjectsDidChangeNotification
+    }
     
-        NotificationCenter.default.addObserver(self, selector: #selector(managedObjectContextChanged), name: Notification.Name.NSManagedObjectContextObjectsDidChange, object: managedContext)
-        
+    func setupDataSource() {
         if isXmlParsed {
             loadItems()
         }
@@ -99,8 +105,28 @@ class SettingsViewController: UIViewController {
         }
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+    func setupTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.tableFooterView = UIView()
+    }
+    
+    func setupNavigationButtons() {
+        saveButton.tintColor = UIColor.customBlue
+        doneButton.tintColor = UIColor.customBlue
+    }
+    
+    func setupNotifications() {
+        
+        // keyboard
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+       
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        // NSManagedObjectContextObjectsDidChangeNotification
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(managedObjectContextChanged), name: Notification.Name.NSManagedObjectContextObjectsDidChange, object: managedContext)
     }
     
     // MARK: keyboard support
@@ -172,6 +198,8 @@ class SettingsViewController: UIViewController {
             self?.tableView.reloadData()
         }
     }
+    
+    // context handlers  - save, discard
     
     func saveContext() {
         

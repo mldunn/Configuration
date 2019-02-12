@@ -16,7 +16,6 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var bundleVersionLabel: UILabel!
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
