@@ -18,6 +18,9 @@
 		D56C0F2F2211EF6400AECAC8 /* Root+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56C0F2D2211EF6400AECAC8 /* Root+CoreDataClass.swift */; };
 		D56C0F322212243000AECAC8 /* Root+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56C0F312212243000AECAC8 /* Root+Extension.swift */; };
 		D56C0F362212302C00AECAC8 /* Root+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56C0F352212302C00AECAC8 /* Root+CoreDataProperties.swift */; };
+		D56C0F38221257A500AECAC8 /* email.xml in Resources */ = {isa = PBXBuildFile; fileRef = D56C0F37221257A500AECAC8 /* email.xml */; };
+		D56C0F3A22125D8A00AECAC8 /* EditType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56C0F3922125D8A00AECAC8 /* EditType.swift */; };
+		D56C0F3C221260F900AECAC8 /* email.xml in Resources */ = {isa = PBXBuildFile; fileRef = D56C0F37221257A500AECAC8 /* email.xml */; };
 		D5825D0B220BEBE600C39894 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5825D0A220BEBE600C39894 /* AppDelegate.swift */; };
 		D5825D10220BEBE600C39894 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5825D0E220BEBE600C39894 /* Main.storyboard */; };
 		D5825D13220BEBE600C39894 /* Configuration.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D5825D11220BEBE600C39894 /* Configuration.xcdatamodeld */; };
@@ -75,6 +78,8 @@
 		D56C0F2D2211EF6400AECAC8 /* Root+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Root+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D56C0F312212243000AECAC8 /* Root+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Root+Extension.swift"; sourceTree = "<group>"; };
 		D56C0F352212302C00AECAC8 /* Root+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Root+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D56C0F37221257A500AECAC8 /* email.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = email.xml; sourceTree = "<group>"; };
+		D56C0F3922125D8A00AECAC8 /* EditType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditType.swift; sourceTree = "<group>"; };
 		D5825D07220BEBE600C39894 /* Configuration.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Configuration.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5825D0A220BEBE600C39894 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D5825D0F220BEBE600C39894 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -169,6 +174,14 @@
 			path = DataModel;
 			sourceTree = "<group>";
 		};
+		D56C0F3B22125DA400AECAC8 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				D56C0F3922125D8A00AECAC8 /* EditType.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		D5825CFE220BEBE600C39894 = {
 			isa = PBXGroup;
 			children = (
@@ -192,6 +205,7 @@
 		D5825D09220BEBE600C39894 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				D56C0F3B22125DA400AECAC8 /* Helpers */,
 				D591641A220CC09100559607 /* Resources */,
 				D5916401220C636900559607 /* Extensions */,
 				D549A399220C172300DC7453 /* DataModel */,
@@ -265,6 +279,7 @@
 				D5825D0E220BEBE600C39894 /* Main.storyboard */,
 				D5825D16220BEBE700C39894 /* LaunchScreen.storyboard */,
 				D5916404220C7D3C00559607 /* configuration.xml */,
+				D56C0F37221257A500AECAC8 /* email.xml */,
 				D5916426220CD32100559607 /* Localizable.strings */,
 				D591643E220D1B2F00559607 /* SectionHeaderView.xib */,
 			);
@@ -375,6 +390,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D56C0F3C221260F900AECAC8 /* email.xml in Resources */,
 				D5916405220C7D3C00559607 /* configuration.xml in Resources */,
 				D591643F220D1B2F00559607 /* SectionHeaderView.xib in Resources */,
 				D5916427220CD32100559607 /* Localizable.strings in Resources */,
@@ -390,6 +406,7 @@
 			files = (
 				D5892B00220DD2C10078DE00 /* test5.xml in Resources */,
 				D5892AFC220DD2C10078DE00 /* test3.xml in Resources */,
+				D56C0F38221257A500AECAC8 /* email.xml in Resources */,
 				D5892AFD220DD2C10078DE00 /* test1.xml in Resources */,
 				D5892AFF220DD2C10078DE00 /* test2.xml in Resources */,
 				D5892AFE220DD2C10078DE00 /* test4.xml in Resources */,
@@ -420,6 +437,7 @@
 				D5916407220C7EAD00559607 /* String+Extension.swift in Sources */,
 				D5892AE2220D3A610078DE00 /* SectionItem+CoreDataClass.swift in Sources */,
 				D5825D13220BEBE600C39894 /* Configuration.xcdatamodeld in Sources */,
+				D56C0F3A22125D8A00AECAC8 /* EditType.swift in Sources */,
 				D56C0F322212243000AECAC8 /* Root+Extension.swift in Sources */,
 				D549A387220C0FB700DC7453 /* ParserService.swift in Sources */,
 				D549A37D220C070800DC7453 /* ItemTableViewCell.swift in Sources */,

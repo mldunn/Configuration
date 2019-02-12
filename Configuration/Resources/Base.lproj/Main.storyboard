@@ -25,20 +25,29 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3I2-Bf-n4j">
-                                <rect key="frame" x="136.5" y="294" width="102" height="33"/>
+                                <rect key="frame" x="79.5" y="294" width="216" height="33"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Configuration.Edit"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <state key="normal" title="Edit Settings"/>
+                                <state key="normal" title="Edit Configuration Settings"/>
                                 <connections>
-                                    <segue destination="ZFx-xZ-Nf5" kind="presentation" id="yLG-ga-XrU"/>
+                                    <segue destination="ZFx-xZ-Nf5" kind="presentation" identifier="editConfiguration" id="yLG-ga-XrU"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aNb-uw-b2X">
-                                <rect key="frame" x="166.5" y="347" width="42" height="21"/>
+                                <rect key="frame" x="166.5" y="380" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wTJ-Js-qvw">
+                                <rect key="frame" x="112.5" y="337" width="150" height="33"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Email.Edit"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <state key="normal" title="Edit Email Settings"/>
+                                <connections>
+                                    <segue destination="ZFx-xZ-Nf5" kind="presentation" identifier="editEmail" id="dYN-iN-GvW"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -47,8 +56,10 @@
                             <constraint firstItem="a3o-Qv-Yhp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="A6K-F4-UnB"/>
                             <constraint firstItem="aNb-uw-b2X" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Abx-0s-Yv1"/>
                             <constraint firstItem="3I2-Bf-n4j" firstAttribute="top" secondItem="a3o-Qv-Yhp" secondAttribute="bottom" constant="10" id="GwO-lE-pWe"/>
-                            <constraint firstItem="aNb-uw-b2X" firstAttribute="top" secondItem="3I2-Bf-n4j" secondAttribute="bottom" constant="20" id="oDl-HR-LfA"/>
+                            <constraint firstItem="wTJ-Js-qvw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XIw-rV-30N"/>
+                            <constraint firstItem="wTJ-Js-qvw" firstAttribute="top" secondItem="3I2-Bf-n4j" secondAttribute="bottom" constant="10" id="XmN-sF-UWh"/>
                             <constraint firstItem="a3o-Qv-Yhp" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="oHG-7I-Gp7"/>
+                            <constraint firstItem="aNb-uw-b2X" firstAttribute="top" secondItem="wTJ-Js-qvw" secondAttribute="bottom" constant="10" id="wvQ-5M-g9J"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -284,4 +295,7 @@
     <resources>
         <image name="Setting" width="200" height="200"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="dYN-iN-GvW"/>
+    </inferredMetricsTieBreakers>
 </document>

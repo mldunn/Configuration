@@ -8,10 +8,14 @@
 
 import UIKit
 
+
+
 class HomeViewController: UIViewController {
 
     @IBOutlet weak var editSettingsButton: UIButton!
     @IBOutlet weak var bundleVersionLabel: UILabel!
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,11 +29,26 @@ class HomeViewController: UIViewController {
 
             bundleVersionLabel.text = formattedString
         }
-        
-        // Add a little color to the Edit Button
-        
-        editSettingsButton.setTitleColor(UIColor.customBlue, for: .normal)
     }
     
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        LogService.log("prepare for segue \(String(describing: segue.identifier))")
+        var editType: EditType?
+        switch segue.identifier {
+        case EditType.email.segueIdentifier:
+            editType = EditType.email
+        case EditType.configuration.segueIdentifier:
+            editType = EditType.configuration
+        default:
+            break
+        }
+        
+        if let navController = segue.destination as? UINavigationController, let settingsViewController = navController.topViewController as? SettingsViewController {
+            if let editType = editType {
+                settingsViewController.editType = editType
+            }
+        }
+        
+    }
 }

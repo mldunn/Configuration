@@ -1,0 +1,12 @@
+<email>
+    <emailSettings>
+        <server type="text">smtp.aol.com</server>
+        <port type="int">587</port>
+        <mailFrom>user@aol.com</mailFrom>
+        <mailTo>admin@aol.com</mailTo>
+    </emailSettings>
+    <otherSettings>
+        <other1>other value</other1>
+        <other2 type="bool">true</other2>
+    </otherSettings>
+</email>

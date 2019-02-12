@@ -44,14 +44,25 @@ class SettingsViewController: UIViewController {
         }
     }
     
-    var isXmlParsed: Bool {
+    var editType: EditType = EditType.configuration
+    
+    private var xmlFile: String {
+        return editType.rawValue
+    }
+    
+    private var parsedKey: String {
+        return "isXmlParsed." + editType.rawValue
+    }
+    
+    private var isXmlParsed: Bool {
         get {
-            let val = UserDefaults.standard.bool(forKey: "isXmlParsed")
-            LogService.log("isXmlParsed: \(val)")
+            
+            let val = UserDefaults.standard.bool(forKey: parsedKey)
+            LogService.log("\(parsedKey): \(val)")
             return val
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: "isXmlParsed")
+            UserDefaults.standard.set(newValue, forKey: parsedKey)
             UserDefaults.standard.synchronize()
         }
     }
@@ -108,9 +119,11 @@ class SettingsViewController: UIViewController {
     
     func loadXMLFromBundle() {
         
+        let xmlFile = self.xmlFile
+        
         workerQueue.async {
             
-            let parser = ParserService(bundleIdentifier: "configuration")
+            let parser = ParserService(bundleIdentifier: xmlFile)
             parser.parse { [weak self] (success, error) in
                 
                 if let error = error {
@@ -152,7 +165,7 @@ class SettingsViewController: UIViewController {
     func loadItems() {
         guard let context = managedContext else { return }
         
-        configuration = ConfigurationService.getConfiguration(rootKey: "configuration", managedContext: context)
+        configuration = ConfigurationService.getConfiguration(rootKey: editType.rootKey, managedContext: context)
         
         DispatchQueue.main.async { [weak self] in
             self?.isDirty = false
