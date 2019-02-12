@@ -22,7 +22,7 @@ class ConfigurationService {
         return sectionItem
     }
     
-    class func createConfiguration(_ xmlRoot: XMLRoot, managedContext: NSManagedObjectContext) {
+    class func createConfiguration(_ xmlRoot: XMLRoot, managedContext: NSManagedObjectContext, completion: @escaping (Bool, NSError?) -> ()) {
     
         // parse the xml data into Section and SectionItem entities
         managedContext.perform {
@@ -49,11 +49,14 @@ class ConfigurationService {
                 }
             }
             
+            
             do {
                 try managedContext.save()
+                completion(true, nil)
             }
             catch let error as NSError {
                 LogService.error(error, message: "DataModelService.createConfiguration")
+                completion(false, error)
             }
         }
     }

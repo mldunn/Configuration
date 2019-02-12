@@ -36,8 +36,7 @@ class SettingsViewController: UIViewController {
     // context variables
     private var mainContext: NSManagedObjectContext?
     private var backgroundContext: NSManagedObjectContext?
-    // worker queue
-    private var workerQueue = DispatchQueue(label: "configration.worker")
+   
     // data object
     private var configuration: Root?
     // data type
@@ -148,7 +147,7 @@ class SettingsViewController: UIViewController {
         
         let xmlFile = editType.bundleFile
         
-        workerQueue.async {
+        DispatchQueue.global().async {
             
             let parser = ParserService(bundleIdentifier: xmlFile)
             parser.parse { [weak self] (success, error) in
@@ -167,19 +166,26 @@ class SettingsViewController: UIViewController {
     }
     
     func saveXMLToStore(_ xmlRoot: XMLRoot) {
-        workerQueue.async { [weak self] in
+        guard let context = backgroundContext else {
+            LogService.log("saveXMLToStore - guard on context failed")
+            return
+        }
             
-            guard let sSelf = self, let context = sSelf.backgroundContext else {
-                LogService.log("saveXMLToStore - guard on sSelf or context failed")
-                return
+        ConfigurationService.createConfiguration(xmlRoot, managedContext: context, completion: { [weak self] (success, error) in
+            
+            guard let sSelf = self else { return }
+            if success {
+                sSelf.isXmlParsed = true
+                sSelf.loadItemsFromStore()
+            
+                LogService.log("saveXMLToStore - SUCCEEDED")
+            }
+            else if let error = error {
+                LogService.error(error, message: "saveXMLToStore - FAILED")
             }
             
-            ConfigurationService.createConfiguration(xmlRoot, managedContext: context)
-            sSelf.isXmlParsed = true
-            sSelf.loadItemsFromStore()
-            
-            LogService.log("saveXMLToStore - saved configuration")
-        }
+        })
+        
     }
     
     // MARK: Core Data Support
