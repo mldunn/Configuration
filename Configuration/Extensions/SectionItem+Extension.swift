@@ -34,7 +34,7 @@ extension SectionItem {
     }
     
     var identifier: String {
-        if let key = key, let section = section?.name {
+        if let key = key, let section = section?.key {
             return section + "." + key
         }
         return "undefined"

@@ -295,7 +295,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let headerView = Bundle.main.loadNibNamed("SectionHeaderView", owner: nil, options: nil)?.first as? SectionHeaderView,
             let configSection = configuration?.section(for: section) {
-            headerView.configure(id: configSection.id, name: configSection.name)
+            headerView.configure(id: configSection.id, name: configSection.key)
         
             return headerView
         }

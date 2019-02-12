@@ -38,7 +38,7 @@ class ConfigurationService {
             
             for data in xmlRoot.sections {
                 if let section = NSEntityDescription.insertNewObject(forEntityName: "Section", into: managedContext) as? Section {
-                    section.name = data.tag
+                    section.key = data.tag
                     section.id = UUID()
                     
                     root.addToSections(section)

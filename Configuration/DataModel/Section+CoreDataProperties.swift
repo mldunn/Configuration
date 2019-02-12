@@ -2,7 +2,7 @@
 //  Section+CoreDataProperties.swift
 //  Configuration
 //
-//  Created by michael dunn on 2/7/19.
+//  Created by michael dunn on 2/12/19.
 //  Copyright © 2019 michael dunn. All rights reserved.
 //
 //
@@ -18,9 +18,10 @@ extension Section {
     }
 
     @NSManaged public var id: UUID?
-    @NSManaged public var name: String?
+    @NSManaged public var key: String?
     @NSManaged public var position: Int32
     @NSManaged public var items: NSOrderedSet?
+    @NSManaged public var root: Root?
 
 }
 
