@@ -185,8 +185,12 @@ class SettingsViewController: UIViewController {
     // MARK: Core Data Support
     
     @objc func managedObjectContextChanged(_ notification: Notification) {
-        LogService.log("managedObjectContextChanged")
-        isDirty = true
+        
+        if let updatedObjects = notification.userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject>, let item = updatedObjects.first as? SectionItem {
+        
+            LogService.log("managedObjectContextChanged for \(String(describing: item.key))")
+            isDirty = true
+        }
     }
     
     func loadItemsFromStore() {
