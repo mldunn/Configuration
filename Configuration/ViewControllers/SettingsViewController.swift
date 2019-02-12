@@ -46,8 +46,6 @@ class SettingsViewController: UIViewController {
     
     var editType: EditType = EditType.configuration
     
-    
-    
     private var parsedKey: String {
         return "isXmlParsed." + editType.rawValue
     }
@@ -94,7 +92,7 @@ class SettingsViewController: UIViewController {
     
     func setupDataSource() {
         if isXmlParsed {
-            loadItems()
+            loadItemsFromStore()
         }
         else {
             loadXMLFromBundle()
@@ -171,7 +169,7 @@ class SettingsViewController: UIViewController {
             
             ConfigurationService.createConfiguration(xmlRoot, managedContext: context)
             sSelf.isXmlParsed = true
-            sSelf.loadItems()
+            sSelf.loadItemsFromStore()
             
             LogService.log("saveXMLToStore - saved configuration")
         }
@@ -184,7 +182,8 @@ class SettingsViewController: UIViewController {
         isDirty = true
     }
     
-    func loadItems() {
+    func loadItemsFromStore() {
+        
         guard let context = managedContext else { return }
         
         configuration = ConfigurationService.getConfiguration(rootKey: editType.rootKey, managedContext: context)
