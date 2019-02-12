@@ -14,7 +14,6 @@ import CoreData
 // SettingsViewController - handles loading, displaying and managing config settings
 //
 
-
 class SettingsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
