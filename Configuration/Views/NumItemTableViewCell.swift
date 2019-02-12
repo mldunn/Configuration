@@ -22,7 +22,7 @@ class NumItemTableViewCell: ItemTableViewCell {
     override func configure(item: SectionItem) {
         
         super.configure(item: item)
-        
+      
         nameLabel.text = item.key?.localized
         nameLabel.adjustsFontForContentSizeCategory = true
         if let sVal = item.stringvalue, !sVal.isEmpty {
@@ -53,7 +53,34 @@ class NumItemTableViewCell: ItemTableViewCell {
     @IBOutlet weak var valueTextField: UITextField!
     @IBOutlet weak var nameLabel: UILabel!
 
+    //
+    // check for valid integer
+    //
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        LogService.log("NumItemTableViewCell.shouldChangeCharactersInstring \(string)")
+        
+        if string.isEmpty {
+            return true
+        }
+        
+        // check for numbers only
+        guard let type = item?.dataType, (type == ItemType.int.rawValue) else { return true }
+        
+        // build the new string and see if its a number
+        if let newText = textField.text as NSString? {
+            
+            let newString = newText.replacingCharacters(in: range, with: string)
+            LogService.log("NumItemTableViewCell.shouldChangeCharactersInstring - newString=\(newString)")
+            
+            if let _ = Int64(newString) {
+                return true
+            }
+            
+        }
+        return false
+    }
     
 }
 
