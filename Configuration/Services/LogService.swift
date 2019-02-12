@@ -9,7 +9,8 @@
 import Foundation
 
 //
-// LogService: simple console loggin service
+// LogService: simple console logging service
+//
 
 class LogService {
     

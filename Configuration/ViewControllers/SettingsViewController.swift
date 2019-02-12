@@ -95,6 +95,7 @@ class SettingsViewController: UIViewController {
         }
         mainContext = appDelegate.persistentContainer.viewContext
         backgroundContext = appDelegate.persistentContainer.newBackgroundContext()
+        
     }
     
     func setupDataSource() {

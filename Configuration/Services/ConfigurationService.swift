@@ -39,7 +39,6 @@ class ConfigurationService {
             if let section = NSEntityDescription.insertNewObject(forEntityName: "Section", into: managedContext) as? Section {
                 section.name = data.tag
                 section.id = UUID()
-              //  section.position = Int32(data.position)
                 
                 root.addToSections(section)
                 for item in data.items {
