@@ -46,9 +46,7 @@ class SettingsViewController: UIViewController {
     
     var editType: EditType = EditType.configuration
     
-    private var xmlFile: String {
-        return editType.rawValue
-    }
+    
     
     private var parsedKey: String {
         return "isXmlParsed." + editType.rawValue
@@ -143,7 +141,7 @@ class SettingsViewController: UIViewController {
     
     func loadXMLFromBundle() {
         
-        let xmlFile = self.xmlFile
+        let xmlFile = editType.bundleFile
         
         workerQueue.async {
             
