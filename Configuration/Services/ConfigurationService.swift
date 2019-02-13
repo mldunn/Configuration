@@ -29,7 +29,8 @@ class ConfigurationService {
 
         
             guard let root = NSEntityDescription.insertNewObject(forEntityName: "Root", into: managedContext) as? Root else {
-                LogService.log("createConfiguration -  unable to insert Root entity")
+                let error: NSError  = NSError(domain: "ConfigurationService", code: 100)
+                completion(false, error)
                 return
             }
             root.key = xmlRoot.key
@@ -55,7 +56,6 @@ class ConfigurationService {
                 completion(true, nil)
             }
             catch let error as NSError {
-                LogService.error(error, message: "DataModelService.createConfiguration")
                 completion(false, error)
             }
         }
@@ -76,5 +76,18 @@ class ConfigurationService {
             LogService.error(error, message: "DataModelService.getConfiguration")
         }
         return nil
+    }
+
+    static func saveConfiguration(_ context: NSManagedObjectContext, completion: @escaping (Bool, NSError?) -> Void) {
+    
+        context.perform() {
+            do {
+                try context.save()
+                completion(true, nil)
+            }
+            catch let error as NSError {
+                completion(false, error)
+            }
+        }
     }
 }

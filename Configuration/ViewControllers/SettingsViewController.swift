@@ -34,8 +34,11 @@ class SettingsViewController: UIViewController {
     }
     
     // context variables
-    private var mainContext: NSManagedObjectContext?
-    private var backgroundContext: NSManagedObjectContext?
+    private var mainContext: NSManagedObjectContext = CoreDataService.mainContext
+    
+    lazy var backgroundContext: NSManagedObjectContext = {
+        return CoreDataService.backgroundContext
+    }()
    
     // data object
     private var configuration: Root?
@@ -69,8 +72,6 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupContext()
-        
         setupNavigationButtons()
         
         setupTableView()
@@ -86,16 +87,7 @@ class SettingsViewController: UIViewController {
     
     // MARK: Setup Helpers
     
-    func setupContext() {
-        
-         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            fatalError()
-        }
-        mainContext = appDelegate.persistentContainer.viewContext
-        backgroundContext = appDelegate.persistentContainer.newBackgroundContext()
-        
-    }
-    
+  
     func setupDataSource() {
         if isXmlParsed {
             loadItemsFromStore()
@@ -166,12 +158,9 @@ class SettingsViewController: UIViewController {
     }
     
     func saveXMLToStore(_ xmlRoot: XMLRoot) {
-        guard let context = backgroundContext else {
-            LogService.log("saveXMLToStore - guard on context failed")
-            return
-        }
+        
             
-        ConfigurationService.createConfiguration(xmlRoot, managedContext: context, completion: { [weak self] (success, error) in
+        ConfigurationService.createConfiguration(xmlRoot, managedContext: backgroundContext, completion: { [weak self] (success, error) in
             
             guard let sSelf = self else { return }
             if success {
@@ -203,12 +192,12 @@ class SettingsViewController: UIViewController {
         
         DispatchQueue.main.async { [weak self] in
             
-            guard let sSelf = self,  let context = sSelf.mainContext else {
-                LogService.log("loadItemsFromStore - guard on sSelf or context failed")
+            guard let sSelf = self else {
+                LogService.log("loadItemsFromStore - sSelf failed")
                 return
             }
           
-            sSelf.configuration = ConfigurationService.getConfiguration(rootKey: sSelf.editType.rootKey, managedContext: context)
+            sSelf.configuration = ConfigurationService.getConfiguration(rootKey: sSelf.editType.rootKey, managedContext: sSelf.mainContext)
         
             sSelf.isDirty = false
             sSelf.tableView.reloadData()
@@ -219,27 +208,26 @@ class SettingsViewController: UIViewController {
     
     func saveContext() {
         
-        guard let context = mainContext else { return }
-        if context.hasChanges {
+        isDirty = false
+        
+        if mainContext.hasChanges {
             
-            context.perform() {
-                do {
-                    try context.save()
+            ConfigurationService.saveConfiguration(mainContext) { [weak self] (success, error) in
+               
+                
+                self?.isDirty = !success
+                if success {
                     LogService.log("saveContext - SUCCESS")
                 }
-                catch let error as NSError {
+                else if let error = error {
                     LogService.error(error, message: "saveContext - FAILED")
                 }
             }
         }
-        else {
-            LogService.log("saveContext - no changes - ABORTED")
-        }
-        isDirty = false
     }
     
     func discardContext() {
-        if let mainContext = mainContext, mainContext.hasChanges {
+        if mainContext.hasChanges {
             mainContext.rollback()
         }
         dismiss(animated: true, completion: nil)
